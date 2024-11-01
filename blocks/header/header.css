@@ -1,0 +1,15 @@
+.header {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.header__logo {
+  display: flex;
+  max-width: 148px;
+  justify-content: center;
+  align-items: center;
+}

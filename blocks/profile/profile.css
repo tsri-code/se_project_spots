@@ -25,6 +25,8 @@
   letter-spacing: 1.5px;
   margin-bottom: 0;
   margin-top: 0;
+  font-family: "Poppins";
+  font-weight: 600;
 }
 
 .profile__description {
@@ -34,6 +36,8 @@
   color: #716e68;
   margin-top: 0;
   margin-bottom: 5px;
+  font-family: "Poppins";
+  font-weight: 400;
   text-overflow: ellipsis;
   overflow: hidden;
   display: -webkit-box;
@@ -66,7 +70,7 @@
   padding: 18px 24px;
   border: none;
   background-color: #212121;
-  font-family: "Poppins", Arial, sans-serif;
+  font-family: "Poppins";
   font-weight: 600;
   border-radius: 6px;
   color: #fff;

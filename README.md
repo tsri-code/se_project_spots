@@ -1,14 +1,19 @@
 # Project 3: Spots
 
-### Overview  
+### Overview
 
-* Intro  
-* Figma  
-* Images  
-  
+- Intro
+- Figma
+- Images
+
 **Intro**
-  
+
 This project is made so all the elements are displayed correctly on popular screen sizes. We recommend investing more time in completing this project, since it's more difficult than previous ones.  
+This project is made as a mockup profile page for social purposes. Users can add new posts, like, and edit their profile. It is a responsive page for multiple device sizes.
+
+<img src="./images/mobile.png" alt="Mobile view of Spots application">
+<img src="./images/tablet.png" alt="Tablet view of Spots application">
+<img src="./images/desktop.png" alt="Desktop view of Spots application">
   
 **Figma**  
   

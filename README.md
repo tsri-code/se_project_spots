@@ -13,7 +13,7 @@ This project is made as a mockup profile page for social purposes. Users can add
 
 <img src="./images/mobile.png" alt="Mobile view of Spots application">
 <img src="./images/tablet.png" alt="Tablet view of Spots application">
-<img src="./images/desktop.png" alt="Desktop view of Spots application">
+<img src="./images/laptop.png" alt="Desktop view of Spots application">
   
 **Figma**  
   

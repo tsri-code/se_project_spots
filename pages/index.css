@@ -5,6 +5,7 @@
 @import url("../blocks/gallery/gallery.css");
 @import url("../blocks/card/card.css");
 @import url("../blocks/footer/footer.css");
+@import url("../blocks/media/media.css");
 
 .page {
   background-color: #fcf5e5;
@@ -16,6 +17,5 @@
 
 .content {
   max-width: 1440px;
-  margin: 0 auto;
   padding: 0 60px;
 }

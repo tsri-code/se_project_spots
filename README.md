@@ -17,7 +17,7 @@ This project is made as a mockup profile page for social purposes. Users can add
 
 Link: https://tsri-code.github.io/se_project_spots/
 
-Video:
+Video: https://drive.google.com/file/d/1Fbw6yX7MITJukJTgeuemsldq-TlIN-LP/view?usp=sharing
 
 **Figma**
 

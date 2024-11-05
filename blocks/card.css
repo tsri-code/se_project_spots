@@ -5,25 +5,28 @@
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 .card__image {
-  height: 413px;
-  width: 413px;
+  width: 100%;
+  max-width: 413px;
   margin-bottom: 12px;
   border-radius: 8px;
-  aspect-ratio: 1 / 1;
   object-fit: cover;
+  object-position: center;
 }
 
 .card__description {
+  width: 100%;
   font-size: 13px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #54534f;
   margin: 0;
-  width: 100%;
+  box-sizing: border-box;
 }
 
 .card__title {
@@ -48,6 +51,12 @@
 
 .card__like-button:hover {
   transition: opacity 0.3s ease;
+}
+
+@media screen and (max-width: 1279px) {
+  .card {
+    max-width: 413px;
+  }
 }
 
 @media screen and (max-width: 768px) {

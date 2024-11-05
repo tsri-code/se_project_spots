@@ -19,6 +19,7 @@
 
 @media screen and (max-width: 768px) {
   .gallery__cards {
+    width: 288px;
     grid-template-columns: 1fr;
     margin: 0 auto;
     gap: 20px;

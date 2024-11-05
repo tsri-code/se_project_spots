@@ -54,8 +54,11 @@
   .card {
     width: 288px;
     height: 318px;
-    overflow: hidden;
     box-sizing: border-box;
+  }
+
+  .card__description {
+    justify-content: space-between;
   }
 
   .card__image {

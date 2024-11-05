@@ -1,0 +1,7 @@
+.page {
+  font-family: "Poppins", "Arial", sans-serif;
+  background-color: #fcf5e5;
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

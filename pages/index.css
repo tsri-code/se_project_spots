@@ -1,21 +1,10 @@
 @import url("../vendor/normalize.css");
 @import url("../vendor/fonts.css");
-@import url("../blocks/header/header.css");
-@import url("../blocks/profile/profile.css");
-@import url("../blocks/gallery/gallery.css");
-@import url("../blocks/card/card.css");
-@import url("../blocks/footer/footer.css");
-@import url("../blocks/media/media.css");
-
-.page {
-  font-family: "Poppins", "Arial", sans-serif;
-  background-color: #fcf5e5;
-  margin: 0 auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.content {
-  max-width: 1440px;
-  padding: 0 60px;
-}
+@import url("../blocks/content.css");
+@import url("../blocks/page.css");
+@import url("../blocks/header.css");
+@import url("../blocks/profile.css");
+@import url("../blocks/gallery.css");
+@import url("../blocks/card.css");
+@import url("../blocks/footer.css");
+@import url("../blocks/media.css");

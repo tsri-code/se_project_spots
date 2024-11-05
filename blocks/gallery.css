@@ -9,6 +9,7 @@
   padding-top: 20px;
   padding-left: 0;
   border-top: 1px solid rgba(84, 84, 84, 0.4);
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 1400px) {
@@ -19,9 +20,11 @@
 
 @media screen and (max-width: 768px) {
   .gallery__cards {
-    width: 288px;
+    display: grid;
     grid-template-columns: 1fr;
-    margin: 0 auto;
     gap: 20px;
+    width: 288px; /* Fixed width as per Figma */
+    margin: 0 auto;
+    padding-bottom: 20px;
   }
 }

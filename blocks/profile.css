@@ -129,24 +129,25 @@
     max-width: 350px;
   }
 
+  .profile__content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
   .profile__description {
     display: flex;
     font-size: 16px;
     line-height: 1;
     margin: 0;
     align-self: center;
+    padding-bottom: 32px;
   }
 
   .profile__image {
     width: 80px;
     height: 80px;
     border-radius: 8px;
-  }
-
-  .profile__content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
   }
 
   .profile__info {

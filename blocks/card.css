@@ -55,6 +55,10 @@
 }
 
 @media screen and (max-width: 1279px) {
+  .card {
+    width: 413px;
+  }
+
   .card__description {
     max-width: 413px;
   }

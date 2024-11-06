@@ -1,8 +1,8 @@
 .gallery__cards {
   display: grid;
-  justify-content: space-between;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
+  justify-content: center;
+  grid-template-columns: repeat(3, minmax(413px, 1fr));
+  gap: 40px 20px;
   padding-bottom: 40px;
   width: 100%;
   max-width: 1280px;

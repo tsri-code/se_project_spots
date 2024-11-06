@@ -17,13 +17,14 @@
 .profile__info {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 20px;
 }
 
 .profile__name {
   font-size: 32px;
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1;
+  color: #212121;
   margin-bottom: 0;
   margin-top: 0;
   font-family: "Poppins", "Arial", sans-serif;
@@ -32,7 +33,7 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  max-width: 350px;
+  max-width: 420px;
 }
 
 .profile__image {
@@ -44,7 +45,7 @@
 .profile__description {
   margin: 0;
   font-size: 16px;
-  line-height: 1.2;
+  line-height: 1;
   font-weight: 500;
   color: #716e68;
   font-family: "Poppins", "Arial", sans-serif;
@@ -53,11 +54,10 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  max-width: 400px;
+  max-width: 420px;
 }
 
 .profile__edit-button {
-  margin-top: 8px;
   opacity: 0.7;
   display: flex;
   align-items: center;
@@ -111,9 +111,27 @@
     flex-direction: column;
     align-items: center;
     padding-bottom: 20px;
-    gap: 32px;
+    gap: 0;
   }
 
+  .profile__content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+  }
+
+  .profile__image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+  }
+
+  .profile__info {
+    align-items: center;
+    gap: 0;
+  }
   .profile__name {
     display: flex;
     font-size: 20px;
@@ -127,13 +145,8 @@
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    max-width: 350px;
-  }
-
-  .profile__content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    max-width: 288px;
+    margin-bottom: 6px;
   }
 
   .profile__description {
@@ -142,17 +155,8 @@
     line-height: 1;
     margin: 0;
     align-self: center;
-    padding-bottom: 32px;
-  }
-
-  .profile__image {
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
-  }
-
-  .profile__info {
-    align-items: center;
+    margin-bottom: 12px;
+    padding: 0;
   }
 
   .profile__edit-button {
@@ -160,6 +164,7 @@
     opacity: 0.7;
     display: flex;
     align-items: center;
+    margin-bottom: 20px;
     padding: 0;
     gap: 8px;
     border: none;

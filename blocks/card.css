@@ -1,17 +1,17 @@
 .card {
+  display: flex;
+  flex-direction: column;
   list-style: none;
   text-decoration: none;
   padding: 0;
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
 }
 
 .card__image {
   width: 100%;
-  max-width: 413px;
+  height: 413px;
   margin-bottom: 12px;
   border-radius: 8px;
   object-fit: cover;
@@ -55,7 +55,7 @@
 }
 
 @media screen and (max-width: 1279px) {
-  .card {
+  .card__description {
     max-width: 413px;
   }
 }

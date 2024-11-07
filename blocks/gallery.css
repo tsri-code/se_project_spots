@@ -23,10 +23,9 @@
 
 @media screen and (max-width: 768px) {
   .gallery__cards {
-    display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
-    width: 288px;
+    max-width: 288px;
     margin: 0 auto;
     padding-bottom: 20px;
   }

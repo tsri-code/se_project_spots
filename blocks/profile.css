@@ -10,13 +10,14 @@
 
 .profile__content {
   display: flex;
-  gap: 30px;
+  gap: 20px;
 }
 
 .profile__info {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-self: start;
+  gap: 12px;
 }
 
 .profile__name {
@@ -46,7 +47,7 @@
   font-size: 16px;
   line-height: 1;
   font-weight: 500;
-  color: #716e68;
+  color: #212121b2;
   font-family: "Poppins", "Arial", sans-serif;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -57,13 +58,16 @@
 }
 
 .profile__edit-button {
+  margin-top: auto;
   opacity: 0.7;
   display: flex;
-  align-items: center;
+  align-items: start;
   padding: 0;
   border: none;
   background: transparent;
   cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
   font-family: "Poppins", Arial, sans-serif;
   font-weight: 500;
   color: #212121;
@@ -72,13 +76,13 @@
 .profile__edit-icon {
   width: 18px;
   height: 18px;
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 .profile__add-button {
   display: flex;
   align-items: center;
-  padding: 18px 24px;
+  padding: 18px 32px;
   border: none;
   background-color: #212121;
   font-family: "Poppins", "Arial", sans-serif;
@@ -91,7 +95,7 @@
 .profile__add-icon {
   width: 12px;
   height: 12px;
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 .profile__edit-button:hover {
@@ -106,7 +110,6 @@
 
 @media screen and (max-width: 768px) {
   .profile {
-    display: flex;
     flex-direction: column;
     align-items: center;
     padding-bottom: 20px;
@@ -134,11 +137,9 @@
   .profile__name {
     display: flex;
     font-size: 20px;
-    font-weight: 500;
     line-height: 1;
     margin: 0;
     align-self: center;
-    font-family: "Poppins", "Arial", sans-serif;
     text-overflow: ellipsis;
     overflow: hidden;
     display: -webkit-box;
@@ -154,24 +155,14 @@
     line-height: 1;
     margin: 0;
     align-self: center;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
     padding: 0;
   }
 
   .profile__edit-button {
-    margin-top: auto;
-    opacity: 0.7;
-    display: flex;
-    align-items: center;
     margin-bottom: 20px;
-    padding: 0;
     gap: 8px;
     border: none;
-    background: transparent;
-    cursor: pointer;
-    font-family: "Poppins", Arial, sans-serif;
-    font-weight: 500;
-    color: #212121;
   }
   .profile__add-button {
     margin: 0;

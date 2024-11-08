@@ -17,7 +17,6 @@
   .gallery__cards {
     grid-template-columns: repeat(2, 413px);
     gap: 30px;
-    justify-content: center;
   }
 }
 
@@ -26,7 +25,6 @@
     grid-template-columns: 1fr;
     gap: 20px;
     max-width: 288px;
-    margin: 0 auto;
     padding-bottom: 20px;
   }
 }

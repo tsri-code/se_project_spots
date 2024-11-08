@@ -16,7 +16,6 @@
 .profile__info {
   display: flex;
   flex-direction: column;
-  align-self: start;
   gap: 12px;
 }
 

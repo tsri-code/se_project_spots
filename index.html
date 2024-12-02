@@ -21,7 +21,7 @@
           />
           <div class="profile__info">
             <h1 class="profile__name">Bessie Coleman</h1>
-            <p class="profile__description">Civil Aviator</p>
+            <p>Civil Aviator</p>
             <button class="profile__edit-button" type="button">
               <img
                 src="./images/Group2.svg"
@@ -151,10 +151,37 @@
         </ul>
       </section>
     </main>
-
+    <div class="modal modal_opened">
+      <div class="modal__container">
+        <button class="modal__close-button" type="button"></button>
+        <h2 class="modal__title">Edit profile</h2>
+        <form class="modal__form">
+          <label class="modal__label">
+            Name
+            <input
+              type="text"
+              class="modal__input"
+              placeholder="Bessie Coleman"
+              required
+            />
+          </label>
+          <label class="modal__label">
+            Description
+            <input
+              type="text"
+              class="modal__input"
+              placeholder="Civil Aviator"
+              required
+            />
+          </label>
+          <button type="submit" class="modal__button">Save</button>
+        </form>
+      </div>
+    </div>
     <footer class="footer">
       <p class="footer__copyright">2024 &copy; Spots</p>
     </footer>
+
     <script src="./scripts/index.js" defer></script>
   </body>
 </html>

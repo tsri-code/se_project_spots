@@ -29,12 +29,14 @@ const editProfileButton = document.querySelector(".profile__edit-button");
 const editProfileModal = document.querySelector(".modal");
 const closeModalButton = document.querySelector(".modal__close-button");
 const profileFormElement = document.querySelector(".modal__form");
+
 const nameInput = document.querySelector(
   ".modal__input[placeholder='Bessie Coleman']"
 );
 const jobInput = document.querySelector(
   ".modal__input[placeholder='Civil Aviator']"
 );
+
 const profileNameElement = document.querySelector(".profile__name");
 const profileJobElement = document.querySelector(".profile__info p");
 

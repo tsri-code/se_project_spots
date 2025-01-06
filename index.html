@@ -21,7 +21,7 @@
           />
           <div class="profile__info">
             <h1 class="profile__name">Bessie Coleman</h1>
-            <p>Civil Aviator</p>
+            <p class="profile__description">Civil Aviator</p>
             <button class="profile__edit-button" type="button">
               <img
                 src="./images/Group2.svg"
@@ -43,139 +43,55 @@
       </section>
 
       <section class="gallery">
-        <ul class="gallery__cards">
-          <li class="card">
-            <img
-              src="./images/pexels-kassandre-pedro-8639743-1.png"
-              alt="Val Thorens view"
-              class="card__image"
-            />
-            <div class="card__description">
-              <h2 class="card__title">Val Thorens</h2>
-              <button class="card__like-button" type="button">
-                <img
-                  src="./images/Union.svg"
-                  alt="Like button"
-                  class="card__like-icon"
-                />
-              </button>
-            </div>
-          </li>
-          <li class="card">
-            <img
-              src="./images/pexels-kassandre-pedro-8639743-1-1.png"
-              alt="Val Thorens view"
-              class="card__image"
-            />
-            <div class="card__description">
-              <h2 class="card__title">Restaurant terrace</h2>
-              <button class="card__like-button" type="button">
-                <img
-                  src="./images/Union.svg"
-                  alt="Like button"
-                  class="card__like-icon"
-                />
-              </button>
-            </div>
-          </li>
-          <li class="card">
-            <img
-              src="./images/pexels-kassandre-pedro-8639743-1-2.png"
-              alt="Val Thorens view"
-              class="card__image"
-            />
-            <div class="card__description">
-              <h2 class="card__title">An outdoor cafe</h2>
-              <button class="card__like-button" type="button">
-                <img
-                  src="./images/Union.svg"
-                  alt="Like button"
-                  class="card__like-icon"
-                />
-              </button>
-            </div>
-          </li>
-          <li class="card">
-            <img
-              src="./images/pexels-kassandre-pedro-8639743-1-3.png"
-              alt="Val Thorens view"
-              class="card__image"
-            />
-            <div class="card__description">
-              <h2 class="card__title">
-                A very long bridge, over the forest with lots of trees.
-              </h2>
-              <button class="card__like-button" type="button">
-                <img
-                  src="./images/Union.svg"
-                  alt="Like button"
-                  class="card__like-icon"
-                />
-              </button>
-            </div>
-          </li>
-          <li class="card">
-            <img
-              src="./images/pexels-kassandre-pedro-8639743-1-4.png"
-              alt="Val Thorens view"
-              class="card__image"
-            />
-            <div class="card__description">
-              <h2 class="card__title">Tunnel with morning light</h2>
-              <button class="card__like-button" type="button">
-                <img
-                  src="./images/Union.svg"
-                  alt="Like button"
-                  class="card__like-icon"
-                />
-              </button>
-            </div>
-          </li>
-          <li class="card">
-            <img
-              src="./images/pexels-kassandre-pedro-8639743-1-5.png"
-              alt="Val Thorens view"
-              class="card__image"
-            />
-            <div class="card__description">
-              <h2 class="card__title">Mountain house</h2>
-              <button class="card__like-button" type="button">
-                <img
-                  src="./images/Union.svg"
-                  alt="Like button"
-                  class="card__like-icon"
-                />
-              </button>
-            </div>
-          </li>
-        </ul>
+        <ul class="gallery__cards"></ul>
       </section>
     </main>
+
+    <template id="card-template">
+      <li class="card">
+        <img src="" alt="" class="card__image" />
+        <div class="card__description">
+          <h2 class="card__title"></h2>
+          <button class="card__like-button" type="button">
+            <img
+              src="./images/Union.svg"
+              alt="Like button"
+              class="card__like-icon"
+            />
+          </button>
+        </div>
+      </li>
+    </template>
+
     <div class="modal">
       <div class="modal__container">
-        <button class="modal__close-button" type="button"></button>
-        <h2 class="modal__title">Edit profile</h2>
-        <form class="modal__form">
-          <label class="modal__label">
-            Name
-            <input
-              type="text"
-              class="modal__input"
-              placeholder="Bessie Coleman"
-              required
-            />
-          </label>
-          <label class="modal__label">
-            Description
-            <input
-              type="text"
-              class="modal__input"
-              placeholder="Civil Aviator"
-              required
-            />
-          </label>
-          <button type="submit" class="modal__button">Save</button>
-        </form>
+        <div class="modal__header-wrapper">
+          <h2 class="modal__title">Edit profile</h2>
+          <button class="modal__close-button" type="button"></button>
+        </div>
+        <div class="modal__content-wrapper">
+          <form class="modal__form">
+            <label class="modal__label">
+              <span class="modal__label-text">Name</span>
+              <input
+                type="text"
+                class="modal__input modal__input_type_name"
+                placeholder="Type your name"
+                required
+              />
+            </label>
+            <label class="modal__label">
+              <span class="modal__label-text">Description</span>
+              <input
+                type="text"
+                class="modal__input modal__input_type_description"
+                placeholder="Describe yourself"
+                required
+              />
+            </label>
+            <button type="submit" class="modal__button">Save</button>
+          </form>
+        </div>
       </div>
     </div>
     <footer class="footer">

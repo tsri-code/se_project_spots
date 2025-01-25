@@ -65,14 +65,15 @@ function closeModal(modal) {
 }
 
 function openEditProfileModal() {
-  nameInput.value = profileNameElement.textContent;
-  jobInput.value = profileJobElement.textContent;
+  // Only set values if inputs are empty
+  if (!nameInput.value && !jobInput.value) {
+    nameInput.value = profileNameElement.textContent;
+    jobInput.value = profileJobElement.textContent;
+  }
   openModal(editProfileModal);
 }
 
 function openNewPostModal() {
-  imageLinkInput.value = "";
-  captionInput.value = "";
   openModal(newPostModal);
 }
 
@@ -90,6 +91,17 @@ function handleProfileFormSubmit(evt) {
   profileNameElement.textContent = nameInput.value;
   profileJobElement.textContent = jobInput.value;
   closeModal(editProfileModal);
+  profileFormElement.reset(); // Clear form only after successful submission
+}
+
+// Card Functions
+const cardTemplate = document.querySelector("#card-template").content;
+const cardList = document.querySelector(".gallery__cards");
+
+// Universal function for rendering cards
+function renderCard(cardData, method = "prepend") {
+  const cardElement = getCardElement(cardData);
+  cardList[method](cardElement);
 }
 
 // Handles new post form submission
@@ -99,8 +111,7 @@ function handleNewPostFormSubmit(evt) {
     name: captionInput.value,
     link: imageLinkInput.value,
   };
-  const cardElement = getCardElement(newCard);
-  cardList.prepend(cardElement);
+  renderCard(newCard, "prepend");
   closeModal(newPostModal);
   newPostForm.reset();
 }
@@ -108,13 +119,28 @@ function handleNewPostFormSubmit(evt) {
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 newPostForm.addEventListener("submit", handleNewPostFormSubmit);
 
-const cardTemplate = document.querySelector("#card-template").content;
-const cardList = document.querySelector(".gallery__cards");
-
 function handleCardClick(cardImage, cardTitle) {
   imagePreview.src = cardImage.src;
   imagePreview.alt = cardImage.alt;
   imageCaption.textContent = cardTitle.textContent;
+
+  // Check image orientation and add appropriate class
+  imagePreview.onload = () => {
+    if (imagePreview.naturalWidth > imagePreview.naturalHeight) {
+      imagePreview.classList.add("modal__image_landscape");
+      imagePreview.classList.remove("modal__image_portrait");
+    } else {
+      imagePreview.classList.add("modal__image_portrait");
+      imagePreview.classList.remove("modal__image_landscape");
+    }
+
+    // Mobile-only: Set caption position based on actual image height
+    if (window.innerWidth <= 720) {
+      const imageHeight = imagePreview.offsetHeight;
+      imageCaption.style.top = `${imageHeight - 10}px`;
+    }
+  };
+
   openModal(imageModal);
 }
 
@@ -145,7 +171,7 @@ function getCardElement(data) {
   return cardElement;
 }
 
+// Initialize cards from data
 initialCards.forEach((cardData) => {
-  const cardElement = getCardElement(cardData);
-  cardList.append(cardElement);
+  renderCard(cardData, "append");
 });

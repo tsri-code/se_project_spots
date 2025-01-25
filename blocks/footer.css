@@ -4,6 +4,8 @@
   font-size: 16px;
   margin: 60px auto;
   color: #62605c;
+  position: relative;
+  z-index: 1;
 }
 
 .footer__copyright {

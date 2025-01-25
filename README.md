@@ -1,4 +1,4 @@
-# Project 3: Spots
+# Project 5: Spots
 
 ### Overview
 
@@ -15,15 +15,13 @@ This project is made as a mockup profile page for social purposes. Users can add
 <img src="./images/tablet.png" alt="Tablet view of Spots application">
 <img src="./images/laptop.png" alt="Desktop view of Spots application">
 
-- [Link to project outline](https://www.figma.com/design/GfXsvCPiLqITbrVOr7odwc/Sprint-4-Project%3A-Spots?node-id=201-374&t=ezRhdwgaPJyq1ael-0)
-
 Link: https://tsri-code.github.io/se_project_spots/
 
 Video: https://drive.google.com/file/d/1Fbw6yX7MITJukJTgeuemsldq-TlIN-LP/view?usp=sharing
 
 **Figma**
 
-- [Link to the project on Figma](https://www.figma.com/file/BBNm2bC3lj8QQMHlnqRsga/Sprint-3-Project-%E2%80%94-Spots?type=design&node-id=2%3A60&mode=design&t=afgNFybdorZO6cQo-1)
+- [Link to the project on Figma](https://www.figma.com/design/1qCS9RkiKiVquBhpOJqjZ0/Sprint-5-Project%3A-Spots?node-id=2201-1078&t=wBhbxezXS0PChyNg-0)
 
 **Images**
 

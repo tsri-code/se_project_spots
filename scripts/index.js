@@ -134,9 +134,17 @@ function handleCardClick(cardImage, cardTitle) {
       imagePreview.classList.remove("modal__image_landscape");
     }
 
-    // Mobile-only: Set caption position based on actual image height
-    if (window.innerWidth <= 720) {
-      const imageHeight = imagePreview.offsetHeight;
+    const imageHeight = imagePreview.offsetHeight;
+    const closeButton = imageModal.querySelector(
+      ".modal__close-button_type_image"
+    );
+
+    if (window.innerWidth > 720) {
+      // Desktop only
+      imageCaption.style.top = `${imageHeight}px`;
+      closeButton.style.top = "8px"; // Align with top of image
+    } else {
+      // Mobile - use existing dynamic calculation
       imageCaption.style.top = `${imageHeight - 10}px`;
     }
   };

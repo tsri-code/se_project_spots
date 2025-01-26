@@ -57,9 +57,10 @@
   font-size: 32px;
   line-height: 32px;
   font-weight: 500;
-  width: 149px;
+  width: auto;
   height: 32px;
   color: #212121;
+  white-space: nowrap;
 }
 
 .modal__form {
@@ -144,6 +145,7 @@
   justify-content: center;
 }
 
+/* Regular modal close button (for edit profile and new post) */
 .modal__close-button {
   position: absolute;
   top: -4px;
@@ -161,9 +163,29 @@
   justify-content: center;
 }
 
+.modal__close-button:hover {
+  opacity: 1;
+}
+
+/* Create X for regular modals */
 .modal__close-button::before,
 .modal__close-button::after {
-  display: none;
+  content: "";
+  position: absolute;
+  width: 22.63px;
+  height: 2px;
+  background-color: #212121;
+  top: 20.49px;
+  left: 4.49px;
+  transform-origin: center;
+}
+
+.modal__close-button::before {
+  transform: rotate(45deg);
+}
+
+.modal__close-button::after {
+  transform: rotate(-45deg);
 }
 
 /* Normal modals only - this should not apply to image modal */
@@ -202,18 +224,6 @@
   height: 40px;
 }
 
-.modal_type_new-post .modal__close-button::before,
-.modal_type_new-post .modal__close-button::after {
-  content: "";
-  position: absolute;
-  width: 22.63px;
-  height: 2px;
-  background-color: #212121;
-  top: 20.49px;
-  left: 4.49px;
-  transform-origin: center;
-}
-
 /* Image Modal */
 .modal_type_image {
   background-color: rgba(0, 0, 0, 0.5);
@@ -236,26 +246,28 @@
   display: block;
   border-radius: 8px;
   object-fit: contain;
+  position: relative;
 }
 
 /* Portrait image */
 .modal__image.modal__image_portrait {
-  width: 446.43px;
-  height: 661px;
+  max-width: 446.43px;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
 }
 
 /* Landscape image */
 .modal__image.modal__image_landscape {
-  width: 991.5px;
-  height: 661px;
+  max-width: 991.5px;
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
 }
 
 .modal__caption {
   position: absolute;
   left: 0;
-  transform: translateY(5px);
-  bottom: auto;
-  top: calc(100% - 5px);
   font-family: "Poppins", "Arial", sans-serif;
   font-size: 20px;
   line-height: 24px;
@@ -273,12 +285,12 @@
   display: inline-block;
 }
 
+/* Image modal close button - completely separate styles */
 .modal__close-button_type_image {
   position: absolute;
   width: 40px;
   height: 40px;
-  top: 0;
-  right: -48px;
+  right: -40px;
   padding: 0;
   background: transparent;
   border: none;
@@ -290,24 +302,18 @@
   transition: opacity 0.3s ease;
 }
 
+.modal__close-button_type_image:hover {
+  opacity: 0.4;
+}
+
 .modal__close-button_type_image::before,
 .modal__close-button_type_image::after {
-  content: "";
-  position: absolute;
-  width: 22.63px;
-  height: 2px;
-  background-color: #ffffff;
-  top: 20.49px;
-  left: 4.49px;
-  transform-origin: center;
+  display: none;
 }
 
-.modal__close-button_type_image::before {
-  transform: rotate(45deg);
-}
-
-.modal__close-button_type_image::after {
-  transform: rotate(-45deg);
+.modal__close-icon {
+  width: 40px;
+  height: 40px;
 }
 
 @media screen and (max-width: 720px) {
@@ -361,7 +367,8 @@
     white-space: nowrap;
   }
 
-  .modal__close-button {
+  /* Regular modal close button (non-image modals) */
+  .modal__close-button:not(.modal__close-button_type_image) {
     width: 40px;
     height: 40px;
     opacity: 0.4;
@@ -375,12 +382,12 @@
     justify-content: center;
   }
 
-  .modal__close-button:hover {
+  .modal__close-button:not(.modal__close-button_type_image):hover {
     opacity: 1;
   }
 
-  .modal__close-button::before,
-  .modal__close-button::after {
+  .modal__close-button:not(.modal__close-button_type_image)::before,
+  .modal__close-button:not(.modal__close-button_type_image)::after {
     content: "";
     position: absolute;
     width: 22.63px;
@@ -391,11 +398,11 @@
     transform-origin: center;
   }
 
-  .modal__close-button::before {
+  .modal__close-button:not(.modal__close-button_type_image)::before {
     transform: rotate(45deg);
   }
 
-  .modal__close-button::after {
+  .modal__close-button:not(.modal__close-button_type_image)::after {
     transform: rotate(-45deg);
   }
 
@@ -523,9 +530,14 @@
     position: absolute;
     width: 40px;
     height: 40px;
-    top: -48px;
-    right: 0;
+    top: -32px;
+    right: -8px;
     padding: 0;
+  }
+
+  .modal__close-button_type_image .modal__close-icon {
+    width: 22.63px;
+    height: 22.63px;
   }
 
   .modal_type_edit .modal__container {
@@ -545,5 +557,10 @@
     align-items: center;
     margin: 0;
     padding: 0;
+  }
+
+  .modal_type_image .modal__close-button_type_image {
+    top: -32px;
+    right: -8px;
   }
 }

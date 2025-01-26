@@ -145,7 +145,7 @@
   justify-content: center;
 }
 
-/* Regular modal close button (for edit profile and new post) */
+/* for edit profile and new post */
 .modal__close-button {
   position: absolute;
   top: -4px;
@@ -167,7 +167,6 @@
   opacity: 1;
 }
 
-/* Create X for regular modals */
 .modal__close-button::before,
 .modal__close-button::after {
   content: "";
@@ -367,7 +366,6 @@
     white-space: nowrap;
   }
 
-  /* Regular modal close button (non-image modals) */
   .modal__close-button:not(.modal__close-button_type_image) {
     width: 40px;
     height: 40px;

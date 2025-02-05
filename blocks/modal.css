@@ -482,20 +482,79 @@
   }
 
   .modal_type_new-post .modal__container {
+    box-sizing: border-box;
     height: 336px;
+    padding: 12px 12px 24px;
   }
 
-  .modal_type_edit .modal__container {
-    height: 336px;
+  .modal_type_new-post .modal__header-wrapper {
+    width: 276px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    margin-bottom: 12px;
+    padding: 0;
+  }
+
+  .modal_type_new-post .modal__field-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .modal_type_new-post .modal__content-wrapper {
+    width: 276px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 216px;
+    box-sizing: border-box;
   }
 
   .modal_type_new-post .modal__title {
     width: 149px;
+    font-size: 20px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
   }
 
-  .modal_type_edit .modal__title {
-    width: auto;
-    white-space: nowrap;
+  .modal_type_edit .modal__container {
+    box-sizing: border-box;
+    height: 336px;
+    padding: 12px 12px 24px;
+  }
+
+  .modal_type_edit .modal__header-wrapper {
+    width: 276px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    margin-bottom: 12px;
+    padding: 0;
+  }
+
+  .modal_type_edit .modal__field-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .modal_type_edit .modal__content-wrapper {
+    width: 276px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 216px;
+    box-sizing: border-box;
   }
 
   .modal__title {
@@ -586,37 +645,86 @@
     max-width: 100%;
   }
 
-  .modal__close-button_type_image {
+  /* Mobile-specific image modal close button */
+  .modal_type_image .modal__close-button_type_image {
     position: absolute;
     width: 40px;
     height: 40px;
     top: -32px;
     right: -8px;
     padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .modal__close-button_type_image .modal__close-icon {
+  .modal_type_image .modal__close-button_type_image:hover {
+    opacity: 0.4;
+  }
+
+  .modal_type_image .modal__close-button_type_image::before,
+  .modal_type_image .modal__close-button_type_image::after {
+    display: none;
+  }
+
+  .modal_type_image .modal__close-button_type_image .modal__close-icon {
     width: 22.63px;
     height: 22.63px;
+    display: block;
   }
 
-  .modal_type_edit .modal__container {
-    padding: 12px 12px 24px;
-  }
-
-  .modal_type_edit .modal__header-wrapper {
+  .modal_type_edit .modal__content-wrapper {
     width: 276px;
-    height: 40px;
+    margin: 0 auto;
+    position: relative;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0;
-    padding: 0;
+    flex-direction: column;
+    flex: 1;
+    min-height: 244px;
   }
 
-  .modal_type_image .modal__close-button_type_image {
-    top: -32px;
-    right: -8px;
+  .modal_type_edit .modal__form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: inherit;
+  }
+
+  .modal_type_edit .modal__button {
+    margin-top: 0;
+  }
+
+  .modal_type_new-post .modal__content-wrapper {
+    width: 276px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 244px;
+  }
+
+  .modal_type_new-post .modal__form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: inherit;
+  }
+
+  .modal_type_new-post .modal__button {
+    margin-top: 0;
+  }
+
+  .modal_type_edit .modal__input[name="description"] {
+    height: 48px;
+    min-height: 48px;
+    resize: none;
+    padding: 16px 12px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
   }
 }
 
@@ -638,4 +746,91 @@
 /* Add specific height for edit modal container */
 .modal_type_edit .modal__container {
   height: 415px;
+}
+
+/* Desktop-specific modal overrides */
+.modal_type_new-post .modal__container {
+  height: 415px;
+}
+
+.modal_type_edit .modal__title {
+  width: auto;
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 720px) {
+  .modal_type_new-post .modal__container {
+    box-sizing: border-box;
+    height: 336px;
+    padding: 12px 12px 24px;
+  }
+
+  .modal_type_new-post .modal__header-wrapper {
+    width: 276px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    margin-bottom: 12px;
+    padding: 0;
+  }
+
+  .modal_type_new-post .modal__field-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .modal_type_new-post .modal__content-wrapper {
+    width: 276px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 216px;
+    box-sizing: border-box;
+  }
+
+  .modal_type_edit .modal__container {
+    box-sizing: border-box;
+    height: 336px;
+    padding: 12px 12px 24px;
+  }
+
+  .modal_type_edit .modal__header-wrapper {
+    width: 276px;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    margin-bottom: 12px;
+    padding: 0;
+  }
+
+  .modal_type_edit .modal__field-wrapper {
+    position: relative;
+    margin-bottom: 16px;
+  }
+
+  .modal_type_edit .modal__content-wrapper {
+    width: 276px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 216px;
+    box-sizing: border-box;
+  }
+}
+
+/* Add specific styles for textarea */
+.modal__input[type="text"],
+.modal__input[name="description"] {
+  resize: none;
+  min-height: 48px;
+  height: auto;
+  font-family: "Poppins", sans-serif;
 }

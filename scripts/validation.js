@@ -47,10 +47,22 @@ function adjustModalHeight(formElement) {
   const modalContainer = formElement.closest(".modal__container");
   const contentWrapper = formElement.closest(".modal__content-wrapper");
   const errorHeight = getErrorHeight(formElement);
+  const isNewPostModal = formElement.closest(".modal_type_new-post");
+  const isEditModal = formElement.closest(".modal_type_edit");
 
-  // Base heights
-  const baseContainerHeight = 336;
-  const baseContentHeight = 220;
+  // Different base heights for each modal type
+  let baseContainerHeight, baseContentHeight;
+
+  if (isNewPostModal) {
+    baseContainerHeight = 336; // Base height without padding
+    baseContentHeight = 216; // Base content height without padding
+  } else if (isEditModal) {
+    baseContainerHeight = 336;
+    baseContentHeight = 220;
+  } else {
+    baseContainerHeight = 336;
+    baseContentHeight = 220;
+  }
 
   // Calculate new heights
   const newContainerHeight = baseContainerHeight + errorHeight;
@@ -75,7 +87,6 @@ function showInputError(formElement, inputElement, errorMessage, settings) {
     // Adjust modal height after error is visible
     requestAnimationFrame(() => {
       adjustModalHeight(formElement);
-      adjustDesktopModalHeight(formElement);
     });
   }
 }
@@ -84,28 +95,27 @@ function showInputError(formElement, inputElement, errorMessage, settings) {
 function hideInputError(formElement, inputElement, settings) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
 
-  // Only hide if the input is actually valid
   if (inputElement.validity.valid) {
     inputElement.classList.remove(settings.inputErrorClass);
     errorElement.classList.remove(settings.errorClass);
     errorElement.textContent = "";
 
-    // Check if any other errors are visible
     const hasVisibleErrors = formElement.querySelector(".modal__error_visible");
     if (hasVisibleErrors) {
       adjustModalHeight(formElement);
-      adjustDesktopModalHeight(formElement);
     } else {
-      // Reset to base heights if no errors
       const modalContainer = formElement.closest(".modal__container");
       const contentWrapper = formElement.closest(".modal__content-wrapper");
+      const isNewPostModal = formElement.closest(".modal_type_new-post");
 
       if (window.innerWidth <= 720) {
-        modalContainer.style.height = "336px";
-        contentWrapper.style.height = "220px";
-      } else {
-        modalContainer.style.height = "415px";
-        contentWrapper.style.height = "299px";
+        if (isNewPostModal) {
+          modalContainer.style.height = "336px";
+          contentWrapper.style.height = "216px";
+        } else {
+          modalContainer.style.height = "336px";
+          contentWrapper.style.height = "220px";
+        }
       }
     }
   }

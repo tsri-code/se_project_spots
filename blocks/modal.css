@@ -23,14 +23,13 @@
 .modal__container {
   position: relative;
   background-color: #fff;
-  padding: 50px 32px;
-  border-radius: 8px;
-  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   width: 730px;
   height: 415px;
+  padding: 32px 50px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-  align-items: center;
   box-sizing: border-box;
 }
 
@@ -45,10 +44,10 @@
 
 .modal__content-wrapper {
   width: 630px;
-  height: 272px;
   position: relative;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .modal__title {
@@ -58,7 +57,6 @@
   line-height: 32px;
   font-weight: 500;
   width: auto;
-  height: 32px;
   color: #212121;
   white-space: nowrap;
 }
@@ -67,18 +65,23 @@
   display: flex;
   flex-direction: column;
   width: 630px;
+  height: 100%;
   margin: 0;
   padding: 0;
-  gap: 32px;
+}
+
+.modal__field-wrapper {
+  position: relative;
+  margin-bottom: 32px;
 }
 
 .modal__label {
+  width: 630px;
+  position: relative;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  width: 630px;
-  min-height: 78px;
   gap: 8px;
-  margin: 0;
 }
 
 .modal__label-text {
@@ -89,22 +92,21 @@
   line-height: 17.6px;
   margin: 0;
   padding: 0;
+  width: 630px;
 }
 
 .modal__input {
   width: 630px;
   height: 52px;
-  box-sizing: border-box;
-  border: 1px solid rgba(33, 33, 33, 0.4);
-  border-radius: 8px;
   padding: 16px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(33, 33, 33, 0.4);
+  font-size: 16px;
+  line-height: 16px;
+  box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  font-size: 20px;
-  line-height: 20px;
-  font-weight: 500;
   transition: border-color 0.3s ease;
   color: #212121;
-  margin: 0;
 }
 
 .modal__input:hover {
@@ -115,15 +117,28 @@
   border: 1px solid rgba(33, 33, 33, 0.4);
 }
 
-.modal__input::placeholder {
+.modal__input_type_error {
+  border-color: #ff0000;
+  border-width: 1px;
+  opacity: 0.6;
+}
+
+.modal__error {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 276px;
   font-family: "Poppins", sans-serif;
-  font-size: 20px;
+  font-size: 16px;
+  line-height: 17.6px;
   font-weight: 500;
-  line-height: 20px;
-  color: rgba(33, 33, 33, 0.3);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  color: #ff0000;
+  opacity: 0.7;
+  visibility: hidden;
+}
+
+.modal__error_visible {
+  visibility: visible;
 }
 
 .modal__button {
@@ -143,6 +158,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: auto;
+}
+
+.modal__button_disabled {
+  background: rgba(0, 0, 0, 0.2);
+  cursor: not-allowed;
 }
 
 /* for edit profile and new post */
@@ -327,10 +348,9 @@
     position: relative;
     width: 300px;
     height: 336px;
-    padding: 12px;
+    padding: 12px 12px 24px;
     border-radius: 8px;
     margin: 0;
-    gap: 24px;
     box-sizing: border-box;
     background-color: #ffffff;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
@@ -345,25 +365,142 @@
     justify-content: space-between;
     align-items: center;
     margin: 0;
-    padding: 0;
+    margin-bottom: 16px;
   }
 
   .modal__content-wrapper {
     width: 276px;
-    height: 248px;
     margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .modal__form {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .modal__field-wrapper {
+    position: relative;
+    margin-bottom: 24px;
+  }
+
+  .modal__label {
+    width: 276px;
+    position: relative;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .modal__input {
+    width: 276px;
+    height: 48px;
+    padding: 16px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(33, 33, 33, 0.4);
+    font-size: 16px;
+    line-height: 16px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    transition: border-color 0.3s ease;
+    color: #212121;
+  }
+
+  /* Make hover state more specific to ensure it works in both modals */
+  .modal__form .modal__input:hover:not(.modal__input_type_error) {
+    border-color: #212121;
+  }
+
+  .modal__input:not(:placeholder-shown) {
+    border: 1px solid rgba(33, 33, 33, 0.4);
+  }
+
+  .modal__form .modal__input.modal__input_type_error {
+    border-color: #ff0000;
+    border-width: 1px;
+    border-style: solid;
+    opacity: 0.6;
+  }
+
+  .modal__form .modal__input.modal__input_type_error:hover {
+    border-color: #ff0000;
+    opacity: 0.6;
+  }
+
+  .modal__error {
+    position: static;
+    width: 276px;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    line-height: 17.6px;
+    font-weight: 500;
+    color: #ff0000;
+    opacity: 0.7;
+    visibility: hidden;
+    height: 0;
+    margin-top: 0;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .modal__error_visible {
+    visibility: visible;
+    height: auto;
+    margin-top: 8px;
+  }
+
+  .modal__button {
+    width: 276px;
+    height: 52px;
+    margin-top: auto;
+    border-radius: 8px;
+    background-color: #212121;
+    color: #ffffff;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal__button:hover:not(.modal__button_disabled) {
+    opacity: 0.8;
+  }
+
+  .modal__button_disabled {
+    background: rgba(0, 0, 0, 0.2);
+    cursor: not-allowed;
+  }
+
+  .modal_type_new-post .modal__container {
+    height: 336px;
+  }
+
+  .modal_type_edit .modal__container {
+    height: 336px;
+  }
+
+  .modal_type_new-post .modal__title {
+    width: 149px;
+  }
+
+  .modal_type_edit .modal__title {
+    width: auto;
+    white-space: nowrap;
   }
 
   .modal__title {
-    width: auto;
-    height: 20px;
-    font-family: "Poppins", sans-serif;
     font-size: 20px;
-    font-weight: 500;
     line-height: 20px;
-    color: #212121;
-    margin: 0;
-    white-space: nowrap;
   }
 
   .modal__close-button:not(.modal__close-button_type_image) {
@@ -402,81 +539,6 @@
 
   .modal__close-button:not(.modal__close-button_type_image)::after {
     transform: rotate(-45deg);
-  }
-
-  .modal__form {
-    width: 100%;
-    gap: 24px;
-  }
-
-  .modal__label {
-    width: 276px;
-    height: 74px;
-    gap: 8px;
-  }
-
-  .modal__label-text {
-    font-family: "Poppins", sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 17.6px;
-    color: rgba(33, 33, 33, 0.7);
-  }
-
-  .modal__input {
-    width: 276px;
-    height: 48px;
-    box-sizing: border-box;
-    padding: 16px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(33, 33, 33, 0.4);
-    font-family: "Poppins", sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 16px;
-    color: #212121;
-  }
-
-  .modal__input:hover {
-    border-color: #212121;
-  }
-
-  .modal__input:not(:placeholder-shown) {
-    border: 1px solid rgba(33, 33, 33, 0.4);
-  }
-
-  .modal__input::placeholder {
-    font-family: "Poppins", sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 16px;
-    color: rgba(33, 33, 33, 0.3);
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .modal__button {
-    width: 276px;
-    height: 52px;
-    border-radius: 8px;
-    padding: 18px 32px;
-    gap: 8px;
-    box-sizing: border-box;
-    background-color: #212121;
-    color: #ffffff;
-    font-family: "Poppins", sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .modal_type_new-post .modal__container {
-    height: 336px;
   }
 
   /* Image modal specific mobile styles */
@@ -539,12 +601,7 @@
   }
 
   .modal_type_edit .modal__container {
-    height: 336px;
-  }
-
-  .modal_type_edit .modal__title {
-    width: auto;
-    white-space: nowrap;
+    padding: 12px 12px 24px;
   }
 
   .modal_type_edit .modal__header-wrapper {
@@ -561,4 +618,24 @@
     top: -32px;
     right: -8px;
   }
+}
+
+/* Add specific styles for textarea */
+.modal__input[type="text"],
+.modal__input[name="description"] {
+  resize: none;
+  min-height: 48px;
+  height: auto;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Only keep minimal overrides for edit modal, similar to new post modal */
+.modal_type_edit .modal__title {
+  width: auto;
+  white-space: nowrap;
+}
+
+/* Add specific height for edit modal container */
+.modal_type_edit .modal__container {
+  height: 415px;
 }

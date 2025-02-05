@@ -72,32 +72,47 @@
       </li>
     </template>
 
-    <div class="modal">
+    <div class="modal modal_type_edit">
       <div class="modal__container">
         <div class="modal__header-wrapper">
           <h2 class="modal__title">Edit profile</h2>
           <button class="modal__close-button" type="button"></button>
         </div>
         <div class="modal__content-wrapper">
-          <form class="modal__form">
-            <label class="modal__label">
-              <span class="modal__label-text">Name</span>
-              <input
-                type="text"
-                class="modal__input modal__input_type_name"
-                placeholder="Type your name"
-                required
-              />
-            </label>
-            <label class="modal__label">
-              <span class="modal__label-text">Description</span>
-              <input
-                type="text"
-                class="modal__input modal__input_type_description"
-                placeholder="Describe yourself"
-                required
-              />
-            </label>
+          <form class="modal__form" novalidate>
+            <div class="modal__field-wrapper">
+              <label class="modal__label">
+                <span class="modal__label-text">Name</span>
+                <input
+                  type="text"
+                  class="modal__input modal__input_type_name"
+                  placeholder="Type your name"
+                  required
+                  minlength="2"
+                  maxlength="40"
+                  id="profile-name-input"
+                />
+                <span class="modal__error" id="profile-name-input-error"></span>
+              </label>
+            </div>
+            <div class="modal__field-wrapper">
+              <label class="modal__label">
+                <span class="modal__label-text">Description</span>
+                <input
+                  type="text"
+                  class="modal__input modal__input_type_description"
+                  placeholder="Describe yourself"
+                  required
+                  minlength="2"
+                  maxlength="200"
+                  id="profile-description-input"
+                />
+                <span
+                  class="modal__error"
+                  id="profile-description-input-error"
+                ></span>
+              </label>
+            </div>
             <button type="submit" class="modal__button">Save</button>
           </form>
         </div>
@@ -111,25 +126,35 @@
           <button class="modal__close-button" type="button"></button>
         </div>
         <div class="modal__content-wrapper">
-          <form class="modal__form">
-            <label class="modal__label">
-              <span class="modal__label-text">Image link</span>
-              <input
-                type="url"
-                class="modal__input modal__input_type_image-link"
-                placeholder="Paste a link to the picture"
-                required
-              />
-            </label>
-            <label class="modal__label">
-              <span class="modal__label-text">Caption</span>
-              <input
-                type="text"
-                class="modal__input modal__input_type_caption"
-                placeholder="Type your caption"
-                required
-              />
-            </label>
+          <form class="modal__form" novalidate>
+            <div class="modal__field-wrapper">
+              <label class="modal__label">
+                <span class="modal__label-text">Image link</span>
+                <input
+                  type="url"
+                  class="modal__input modal__input_type_image-link"
+                  placeholder="Paste a link to the picture"
+                  required
+                  id="card-url-input"
+                />
+                <span class="modal__error" id="card-url-input-error"></span>
+              </label>
+            </div>
+            <div class="modal__field-wrapper">
+              <label class="modal__label">
+                <span class="modal__label-text">Caption</span>
+                <input
+                  type="text"
+                  class="modal__input modal__input_type_caption"
+                  placeholder="Type your caption"
+                  required
+                  minlength="2"
+                  maxlength="30"
+                  id="card-title-input"
+                />
+                <span class="modal__error" id="card-title-input-error"></span>
+              </label>
+            </div>
             <button type="submit" class="modal__button">Save</button>
           </form>
         </div>
@@ -153,6 +178,7 @@
       <p class="footer__copyright">2024 &copy; Spots</p>
     </footer>
 
+    <script src="./scripts/validation.js" defer></script>
     <script src="./scripts/index.js" defer></script>
   </body>
 </html>

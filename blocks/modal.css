@@ -208,7 +208,7 @@
   transform: rotate(-45deg);
 }
 
-/* Normal modals only - this should not apply to image modal */
+/* this should not apply to image modal */
 .modal__close-button:not(.modal__close-button_type_image)::before,
 .modal__close-button:not(.modal__close-button_type_image)::after {
   content: "";
@@ -411,7 +411,6 @@
     color: #212121;
   }
 
-  /* Make hover state more specific to ensure it works in both modals */
   .modal__form .modal__input:hover:not(.modal__input_type_error) {
     border-color: #212121;
   }
@@ -749,13 +748,22 @@
 }
 
 /* Desktop-specific modal overrides */
-.modal_type_new-post .modal__container {
+.modal_type_new-post .modal__container,
+.modal_type_edit .modal__container {
   height: 415px;
 }
 
 .modal_type_edit .modal__title {
   width: auto;
   white-space: nowrap;
+}
+
+.modal__input[type="text"],
+.modal__input[name="description"] {
+  resize: none;
+  min-height: 48px;
+  height: auto;
+  font-family: "Poppins", sans-serif;
 }
 
 @media screen and (max-width: 720px) {
@@ -833,4 +841,94 @@
   min-height: 48px;
   height: auto;
   font-family: "Poppins", sans-serif;
+}
+
+/* Add desktop-specific error message styles */
+@media screen and (min-width: 721px) {
+  .modal__error {
+    position: static;
+    margin-top: 8px;
+    width: 630px;
+  }
+
+  .modal__field-wrapper {
+    margin-bottom: 32px;
+  }
+
+  .modal__field-wrapper:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Add input hover and error styles */
+  .modal__form .modal__input:hover:not(.modal__input_type_error) {
+    border-color: #212121;
+  }
+
+  .modal__form .modal__input_type_error {
+    border-color: #ff0000;
+    border-width: 1px;
+    border-style: solid;
+    opacity: 0.6;
+  }
+
+  .modal__form .modal__input.modal__input_type_error:hover {
+    border-color: #ff0000;
+    opacity: 0.6;
+  }
+}
+
+/* Desktop-specific modal overrides */
+@media screen and (min-width: 721px) {
+  /* Container styles */
+  .modal_type_new-post .modal__container,
+  .modal_type_edit .modal__container {
+    height: 415px;
+    padding: 32px 50px 40px;
+  }
+
+  /* Title styles */
+  .modal_type_edit .modal__title {
+    width: auto;
+    white-space: nowrap;
+  }
+
+  /* Input and textarea styles */
+  .modal__input[type="text"],
+  .modal__input[name="description"] {
+    resize: none;
+    min-height: 48px;
+    height: auto;
+    font-family: "Poppins", sans-serif;
+  }
+
+  /* Error message styles */
+  .modal__error {
+    position: static;
+    margin-top: 8px;
+    width: 630px;
+  }
+
+  /* Field wrapper spacing */
+  .modal__field-wrapper {
+    margin-bottom: 32px;
+  }
+
+  .modal__field-wrapper:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Button hover */
+  .modal__button:hover:not(.modal__button_disabled) {
+    opacity: 0.8;
+  }
+
+  /* Input states */
+  .modal__form .modal__input:hover:not(.modal__input_type_error) {
+    border-color: #212121;
+  }
+
+  .modal__form .modal__input.modal__input_type_error:hover {
+    border-color: #ff0000;
+    opacity: 0.6;
+  }
 }

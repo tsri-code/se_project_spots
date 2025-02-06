@@ -1,4 +1,4 @@
-# Project 5: Spots
+# Project 6: Spots
 
 ### Overview
 
@@ -21,7 +21,7 @@ Video: https://drive.google.com/file/d/1Fbw6yX7MITJukJTgeuemsldq-TlIN-LP/view?us
 
 **Figma**
 
-- [Link to the project on Figma](https://www.figma.com/design/1qCS9RkiKiVquBhpOJqjZ0/Sprint-5-Project%3A-Spots?node-id=2201-1078&t=wBhbxezXS0PChyNg-0)
+- [Link to the project on Figma](https://www.figma.com/design/jFtXsDr4XOyebKcgjyXN6W/Sprint-6-Project%3A-Spots?node-id=2403-849&t=hYD9h0SmB6untl7Z-0)
 
 **Images**
 

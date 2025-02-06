@@ -20,20 +20,41 @@ function getErrorHeight(formElement) {
   return totalErrorHeight;
 }
 
-function adjustDesktopModalHeight(formElement) {
+function adjustDesktopNewPostModal(formElement) {
   if (window.innerWidth <= 720) return;
 
   const modalContainer = formElement.closest(".modal__container");
   const contentWrapper = formElement.closest(".modal__content-wrapper");
   const errorHeight = getErrorHeight(formElement);
 
-  // Base heights for desktop
+  // Base heights for desktop new post modal
   const baseContainerHeight = 415;
-  const baseContentHeight = 299; // 415 - (32px top padding + 32px header margin + 52px bottom padding)
+  const baseContentHeight = 299;
 
-  // Calculate new heights
-  const newContainerHeight = baseContainerHeight + errorHeight;
-  const newContentHeight = baseContentHeight + errorHeight;
+  // Calculate new heights with less spacing
+  const newContainerHeight = baseContainerHeight + errorHeight * 0.7; // Reduce the growth
+  const newContentHeight = baseContentHeight + errorHeight * 0.7;
+
+  requestAnimationFrame(() => {
+    modalContainer.style.height = `${newContainerHeight}px`;
+    contentWrapper.style.height = `${newContentHeight}px`;
+  });
+}
+
+function adjustDesktopEditModal(formElement) {
+  if (window.innerWidth <= 720) return;
+
+  const modalContainer = formElement.closest(".modal__container");
+  const contentWrapper = formElement.closest(".modal__content-wrapper");
+  const errorHeight = getErrorHeight(formElement);
+
+  // Base heights for desktop edit modal
+  const baseContainerHeight = 415;
+  const baseContentHeight = 299;
+
+  // Calculate new heights with same growth factor as new post modal
+  const newContainerHeight = baseContainerHeight + errorHeight * 0.7;
+  const newContentHeight = baseContentHeight + errorHeight * 0.7;
 
   requestAnimationFrame(() => {
     modalContainer.style.height = `${newContainerHeight}px`;
@@ -78,15 +99,22 @@ function adjustModalHeight(formElement) {
 function showInputError(formElement, inputElement, errorMessage, settings) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
 
-  // Only show error if the input is actually invalid
   if (!inputElement.validity.valid) {
     inputElement.classList.add(settings.inputErrorClass);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(settings.errorClass);
 
-    // Adjust modal height after error is visible
     requestAnimationFrame(() => {
-      adjustModalHeight(formElement);
+      if (window.innerWidth <= 720) {
+        adjustModalHeight(formElement);
+      } else {
+        // Check modal type and use appropriate function
+        if (formElement.closest(".modal_type_new-post")) {
+          adjustDesktopNewPostModal(formElement);
+        } else if (formElement.closest(".modal_type_edit")) {
+          adjustDesktopEditModal(formElement);
+        }
+      }
     });
   }
 }
@@ -102,13 +130,22 @@ function hideInputError(formElement, inputElement, settings) {
 
     const hasVisibleErrors = formElement.querySelector(".modal__error_visible");
     if (hasVisibleErrors) {
-      adjustModalHeight(formElement);
+      if (window.innerWidth <= 720) {
+        adjustModalHeight(formElement);
+      } else {
+        // Check modal type and use appropriate function
+        if (formElement.closest(".modal_type_new-post")) {
+          adjustDesktopNewPostModal(formElement);
+        } else if (formElement.closest(".modal_type_edit")) {
+          adjustDesktopEditModal(formElement);
+        }
+      }
     } else {
       const modalContainer = formElement.closest(".modal__container");
       const contentWrapper = formElement.closest(".modal__content-wrapper");
-      const isNewPostModal = formElement.closest(".modal_type_new-post");
 
       if (window.innerWidth <= 720) {
+        const isNewPostModal = formElement.closest(".modal_type_new-post");
         if (isNewPostModal) {
           modalContainer.style.height = "336px";
           contentWrapper.style.height = "216px";
@@ -116,6 +153,10 @@ function hideInputError(formElement, inputElement, settings) {
           modalContainer.style.height = "336px";
           contentWrapper.style.height = "220px";
         }
+      } else {
+        // Reset desktop heights
+        modalContainer.style.height = "415px";
+        contentWrapper.style.height = "299px";
       }
     }
   }

@@ -70,12 +70,12 @@
 }
 
 .modal__label {
-  width: 630px;
   position: relative;
   margin: 0;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  cursor: text;
 }
 
 .modal__label-text {
@@ -99,12 +99,20 @@
   border: 1px solid rgba(33, 33, 33, 0.4);
   border-radius: 8px;
   transition: border-color 0.3s ease;
+  width: 100%;
 }
 
 @media screen and (min-width: 721px) {
   .modal__input {
     width: 630px;
     height: 52px;
+    padding: 16px 12px;
+    line-height: 20px;
+  }
+
+  .modal__input[type="text"],
+  .modal__input[type="url"],
+  .modal__input[name="description"] {
     padding: 16px 12px;
     line-height: 20px;
   }
@@ -117,8 +125,17 @@
 @media screen and (max-width: 720px) {
   .modal__input {
     width: 276px;
-    height: 48px;
-    padding: 16px 12px;
+    height: 52px;
+    padding: 15px 12px;
+    line-height: 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(33, 33, 33, 0.4);
+  }
+
+  .modal__input[type="text"],
+  .modal__input[type="url"],
+  .modal__input[name="description"] {
+    padding: 15px 12px;
     line-height: 16px;
   }
 }

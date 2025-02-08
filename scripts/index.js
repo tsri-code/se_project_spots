@@ -1,4 +1,4 @@
-// DOM elements
+// Get all the DOM elements we need to work with
 const editProfileButton = document.querySelector(".profile__edit-button");
 const editProfileModal = document.querySelector(".modal_type_edit");
 const closeModalButtons = document.querySelectorAll(".modal__close-button");
@@ -22,7 +22,7 @@ const imageCaption = imageModal.querySelector(".modal__caption");
 const cardTemplate = document.querySelector("#card-template").content;
 const cardList = document.querySelector(".gallery__cards");
 
-// Initial cards data
+// Sample cards to show when the page loads
 const initialCards = [
   {
     name: "Val Thorens",
@@ -54,7 +54,7 @@ const initialCards = [
   },
 ];
 
-// Handle Escape key press
+// Close modal when Escape key is pressed
 function handleEscClose(evt) {
   if (evt.key === "Escape") {
     const openedModal = document.querySelector(".modal_opened");
@@ -64,16 +64,19 @@ function handleEscClose(evt) {
   }
 }
 
+// Show modal and set up escape key listener
 function openModal(modal) {
   modal.classList.add("modal_opened");
   document.addEventListener("keydown", handleEscClose);
 }
 
+// Hide modal and remove escape key listener
 function closeModal(modal) {
   modal.classList.remove("modal_opened");
   document.removeEventListener("keydown", handleEscClose);
 }
 
+// Open Edit Profile modal and fill in current values
 function openEditProfileModal() {
   nameInput.value = profileNameElement.textContent;
   jobInput.value = profileJobElement.textContent;
@@ -81,12 +84,14 @@ function openEditProfileModal() {
   openModal(editProfileModal);
 }
 
+// Open New Post modal with empty form
 function openNewPostModal() {
-  newPostForm.reset(); // This will trigger the reset event listener
+  newPostForm.reset();
   resetValidation(newPostForm, validationSettings);
   openModal(newPostModal);
 }
 
+// Save profile changes and close modal
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileNameElement.textContent = nameInput.value;
@@ -94,6 +99,7 @@ function handleProfileFormSubmit(evt) {
   closeModal(editProfileModal);
 }
 
+// Create new card and close modal
 function handleNewPostFormSubmit(evt) {
   evt.preventDefault();
   const newCard = {
@@ -102,19 +108,22 @@ function handleNewPostFormSubmit(evt) {
   };
   renderCard(newCard, "prepend");
   closeModal(newPostModal);
-  newPostForm.reset(); // This will trigger the reset event listener
+  newPostForm.reset();
 }
 
+// Open image modal with clicked card's image
 function handleCardClick(cardImage, cardTitle) {
   imagePreview.src = cardImage.src;
   imagePreview.alt = cardImage.alt;
   imageCaption.textContent = cardTitle.textContent;
 
+  // Position elements after image loads
   imagePreview.onload = () => {
     const closeButton = imageModal.querySelector(
       ".modal__close-button_type_image"
     );
 
+    // Set image orientation class
     if (imagePreview.naturalWidth > imagePreview.naturalHeight) {
       imagePreview.classList.add("modal__image_landscape");
       imagePreview.classList.remove("modal__image_portrait");
@@ -123,13 +132,13 @@ function handleCardClick(cardImage, cardTitle) {
       imagePreview.classList.remove("modal__image_landscape");
     }
 
-    // Wait for next frame to ensure image dimensions are calculated
+    // Position close button and caption after image dimensions are known
     requestAnimationFrame(() => {
       const imageRect = imagePreview.getBoundingClientRect();
-      const buttonSize = 40; // Close button width/height
-      const gap = 16; // Gap between image and close button
+      const buttonSize = 40;
+      const gap = 16;
 
-      // Position close button relative to image dimensions
+      // Adjust close button position based on screen size
       if (window.innerWidth > 720) {
         closeButton.style.top = "30px";
         closeButton.style.right = "0";
@@ -140,7 +149,7 @@ function handleCardClick(cardImage, cardTitle) {
         closeButton.style.left = "auto";
       }
 
-      // Position caption
+      // Position caption relative to image
       const imageHeight = imageRect.height;
       if (window.innerWidth > 720) {
         imageCaption.style.top = `${imageHeight + 24}px`;
@@ -155,6 +164,7 @@ function handleCardClick(cardImage, cardTitle) {
   openModal(imageModal);
 }
 
+// Create a new card element from template
 function getCardElement(data) {
   const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
   const cardImage = cardElement.querySelector(".card__image");
@@ -162,10 +172,12 @@ function getCardElement(data) {
   const likeButton = cardElement.querySelector(".card__like-button");
   const deleteButton = cardElement.querySelector(".card__delete-button");
 
+  // Set up card content
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardTitle.textContent = data.name;
 
+  // Add card interactions
   likeButton.addEventListener("click", () => {
     likeButton.classList.toggle("card__like-button_active");
   });
@@ -181,23 +193,25 @@ function getCardElement(data) {
   return cardElement;
 }
 
+// Add card to gallery
 function renderCard(cardData, method = "prepend") {
   const cardElement = getCardElement(cardData);
   cardList[method](cardElement);
 }
 
-// Event Listeners
+// Set up event listeners
 editProfileButton.addEventListener("click", openEditProfileModal);
 addPostButton.addEventListener("click", openNewPostModal);
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 newPostForm.addEventListener("submit", handleNewPostFormSubmit);
 
+// Set up close button listeners for all modals
 closeModalButtons.forEach((button) => {
   const modal = button.closest(".modal");
   button.addEventListener("click", () => closeModal(modal));
 });
 
-// Close modal by clicking or touching overlay
+// Close modal by clicking overlay
 const modals = document.querySelectorAll(".modal");
 modals.forEach((modal) => {
   modal.addEventListener("mousedown", (evt) => {
@@ -213,7 +227,7 @@ modals.forEach((modal) => {
   });
 });
 
-// Initialize cards
+// Load initial cards
 initialCards.forEach((cardData) => {
   renderCard(cardData, "append");
 });

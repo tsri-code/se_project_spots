@@ -1,4 +1,4 @@
-// Validation settings object
+// Settings for form validation
 const validationSettings = {
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
@@ -8,7 +8,7 @@ const validationSettings = {
   errorClass: "modal__error_visible",
 };
 
-// Shared helper function to calculate total error height
+// Calculate total height of visible error messages to adjust modal size
 function getErrorHeight(formElement, settings) {
   const visibleErrors = formElement.querySelectorAll(`.${settings.errorClass}`);
   let totalErrorHeight = 0;
@@ -24,7 +24,7 @@ function getErrorHeight(formElement, settings) {
   return totalErrorHeight;
 }
 
-// Shared function to adjust field wrapper positions
+// Move form fields down when errors appear to prevent overlap
 function adjustFieldWrapperPositions(formElement, settings) {
   const fieldWrappers = formElement.querySelectorAll(".modal__field-wrapper");
   let currentOffset = 0;
@@ -47,7 +47,7 @@ function adjustFieldWrapperPositions(formElement, settings) {
   return currentOffset;
 }
 
-// Specific adjustment function for Edit Profile modal
+// Adjust Edit Profile modal height to fit error messages
 function adjustEditProfileModal(
   modalContainer,
   contentWrapper,
@@ -58,11 +58,6 @@ function adjustEditProfileModal(
     content: 248,
   };
 
-  const desktopBase = {
-    container: 415,
-    content: 299,
-  };
-
   if (window.innerWidth <= 720) {
     const newContainerHeight = mobileBase.container + totalErrorHeight;
     const newContentHeight = mobileBase.content + totalErrorHeight;
@@ -70,28 +65,20 @@ function adjustEditProfileModal(
     modalContainer.style.height = `${newContainerHeight}px`;
     contentWrapper.style.height = `${newContentHeight}px`;
   } else {
-    const formElement = contentWrapper.querySelector(".modal__form");
-    const offset = adjustFieldWrapperPositions(formElement, validationSettings);
-
-    modalContainer.style.minHeight = `${desktopBase.container + offset}px`;
-    contentWrapper.style.minHeight = `${desktopBase.content + offset}px`;
-    modalContainer.style.height = "auto";
-    contentWrapper.style.height = "auto";
+    window.adjustDesktopModalHeight(
+      contentWrapper.querySelector(".modal__form"),
+      validationSettings
+    );
   }
 }
 
-// Specific adjustment function for New Post modal
+// Adjust New Post modal height to fit error messages
 function adjustNewPostModal(modalContainer, contentWrapper, totalErrorHeight) {
   const mobileBase = {
     container: 336,
     content: 248,
   };
 
-  const desktopBase = {
-    container: 415,
-    content: 299,
-  };
-
   if (window.innerWidth <= 720) {
     const newContainerHeight = mobileBase.container + totalErrorHeight;
     const newContentHeight = mobileBase.content + totalErrorHeight;
@@ -99,23 +86,19 @@ function adjustNewPostModal(modalContainer, contentWrapper, totalErrorHeight) {
     modalContainer.style.height = `${newContainerHeight}px`;
     contentWrapper.style.height = `${newContentHeight}px`;
   } else {
-    const formElement = contentWrapper.querySelector(".modal__form");
-    const offset = adjustFieldWrapperPositions(formElement, validationSettings);
-
-    modalContainer.style.minHeight = `${desktopBase.container + offset}px`;
-    contentWrapper.style.minHeight = `${desktopBase.content + offset}px`;
-    modalContainer.style.height = "auto";
-    contentWrapper.style.height = "auto";
+    window.adjustDesktopModalHeight(
+      contentWrapper.querySelector(".modal__form"),
+      validationSettings
+    );
   }
 }
 
-// Main adjustment function that determines which modal to adjust
+// Determine which modal needs height adjustment and apply changes
 function adjustModalHeight(formElement, settings) {
   const modalContainer = formElement.closest(".modal__container");
   const contentWrapper = formElement.closest(".modal__content-wrapper");
   const totalErrorHeight = getErrorHeight(formElement, settings);
 
-  // Determine which modal we're in
   const isEditModal = formElement.closest(".modal_type_edit");
   const isNewPostModal = formElement.closest(".modal_type_new-post");
 
@@ -128,7 +111,7 @@ function adjustModalHeight(formElement, settings) {
   });
 }
 
-// Show input error message
+// Display error message for invalid input
 function showInputError(formElement, inputElement, errorMessage, settings) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
   inputElement.classList.add(settings.inputErrorClass);
@@ -140,7 +123,7 @@ function showInputError(formElement, inputElement, errorMessage, settings) {
   });
 }
 
-// Hide input error message
+// Hide error message when input becomes valid
 function hideInputError(formElement, inputElement, settings) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
   inputElement.classList.remove(settings.inputErrorClass);
@@ -152,7 +135,7 @@ function hideInputError(formElement, inputElement, settings) {
   });
 }
 
-// Check input validity
+// Check if input is valid and show/hide error accordingly
 function checkInputValidity(formElement, inputElement, settings) {
   if (!inputElement.validity.valid) {
     showInputError(
@@ -166,14 +149,13 @@ function checkInputValidity(formElement, inputElement, settings) {
   }
 }
 
-// Check if any input is invalid
-function hasInvalidInput(inputList) {
-  return inputList.some((inputElement) => !inputElement.validity.valid);
-}
-
-// Toggle button state based on form validity
+// Enable/disable submit button based on form validity
 function toggleButtonState(inputList, buttonElement, settings) {
-  if (hasInvalidInput(inputList)) {
+  const hasInvalidInput = inputList.some(
+    (inputElement) => !inputElement.validity.valid
+  );
+
+  if (hasInvalidInput) {
     buttonElement.classList.add(settings.inactiveButtonClass);
     buttonElement.disabled = true;
   } else {
@@ -182,7 +164,7 @@ function toggleButtonState(inputList, buttonElement, settings) {
   }
 }
 
-// Reset form validation state
+// Clear validation state when form is reset or reopened
 function resetValidation(formElement, settings) {
   const inputList = Array.from(
     formElement.querySelectorAll(settings.inputSelector)
@@ -195,16 +177,10 @@ function resetValidation(formElement, settings) {
     hideInputError(formElement, inputElement, settings);
   });
 
-  // Ensure button is disabled by default for new post form
-  if (formElement.id === "new-post-form") {
-    buttonElement.classList.add(settings.inactiveButtonClass);
-    buttonElement.disabled = true;
-  } else {
-    toggleButtonState(inputList, buttonElement, settings);
-  }
+  toggleButtonState(inputList, buttonElement, settings);
 }
 
-// Set event listeners for a form
+// Set up validation listeners for all inputs in a form
 function setEventListeners(formElement, settings) {
   const inputList = Array.from(
     formElement.querySelectorAll(settings.inputSelector)
@@ -213,45 +189,27 @@ function setEventListeners(formElement, settings) {
     settings.submitButtonSelector
   );
 
-  // Initial button state
-  if (formElement.id === "new-post-form") {
-    buttonElement.classList.add(settings.inactiveButtonClass);
-    buttonElement.disabled = true;
-  } else {
-    toggleButtonState(inputList, buttonElement, settings);
-  }
-
-  // Add reset listener to handle form resets
-  formElement.addEventListener("reset", () => {
-    // setTimeout ensures this runs after the form reset
-    setTimeout(() => {
-      resetValidation(formElement, settings);
-    }, 0);
-  });
+  toggleButtonState(inputList, buttonElement, settings);
 
   inputList.forEach((inputElement) => {
-    inputElement.addEventListener("input", () => {
+    inputElement.addEventListener("input", function () {
       checkInputValidity(formElement, inputElement, settings);
       toggleButtonState(inputList, buttonElement, settings);
     });
   });
 }
 
-// Enable validation for all forms
+// Initialize validation for all forms
 function enableValidation(settings) {
   const formList = Array.from(document.querySelectorAll(settings.formSelector));
   formList.forEach((formElement) => {
-    formElement.addEventListener("submit", (evt) => {
+    formElement.addEventListener("submit", function (evt) {
       evt.preventDefault();
     });
+
     setEventListeners(formElement, settings);
   });
 }
 
-// Make functions and settings globally available
-window.enableValidation = enableValidation;
-window.resetValidation = resetValidation;
-window.validationSettings = validationSettings;
-
-// Initialize validation with settings
+// Start form validation
 enableValidation(validationSettings);

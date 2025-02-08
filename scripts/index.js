@@ -2,18 +2,20 @@
 const editProfileButton = document.querySelector(".profile__edit-button");
 const editProfileModal = document.querySelector(".modal_type_edit");
 const closeModalButtons = document.querySelectorAll(".modal__close-button");
-const profileFormElement = document.querySelector(".modal__form");
-const nameInput = document.querySelector(".modal__input_type_name");
-const jobInput = document.querySelector(".modal__input_type_description");
+const profileFormElement = document.forms["profile-form"];
+const nameInput = profileFormElement.querySelector(".modal__input_type_name");
+const jobInput = profileFormElement.querySelector(
+  ".modal__input_type_description"
+);
 const profileNameElement = document.querySelector(".profile__name");
 const profileJobElement = document.querySelector(".profile__description");
 const addPostButton = document.querySelector(".profile__add-button");
 const newPostModal = document.querySelector(".modal_type_new-post");
-const newPostForm = newPostModal.querySelector(".modal__form");
-const imageLinkInput = newPostModal.querySelector(
+const newPostForm = document.forms["new-post-form"];
+const imageLinkInput = newPostForm.querySelector(
   ".modal__input_type_image-link"
 );
-const captionInput = newPostModal.querySelector(".modal__input_type_caption");
+const captionInput = newPostForm.querySelector(".modal__input_type_caption");
 const imageModal = document.querySelector(".modal_type_image");
 const imagePreview = imageModal.querySelector(".modal__image");
 const imageCaption = imageModal.querySelector(".modal__caption");
@@ -73,15 +75,14 @@ function closeModal(modal) {
 }
 
 function openEditProfileModal() {
-  if (!nameInput.value && !jobInput.value) {
-    nameInput.value = profileNameElement.textContent;
-    jobInput.value = profileJobElement.textContent;
-  }
+  nameInput.value = profileNameElement.textContent;
+  jobInput.value = profileJobElement.textContent;
   resetValidation(profileFormElement, validationSettings);
   openModal(editProfileModal);
 }
 
 function openNewPostModal() {
+  newPostForm.reset(); // This will trigger the reset event listener
   resetValidation(newPostForm, validationSettings);
   openModal(newPostModal);
 }
@@ -101,8 +102,7 @@ function handleNewPostFormSubmit(evt) {
   };
   renderCard(newCard, "prepend");
   closeModal(newPostModal);
-  newPostForm.reset();
-  resetValidation(newPostForm, validationSettings);
+  newPostForm.reset(); // This will trigger the reset event listener
 }
 
 function handleCardClick(cardImage, cardTitle) {
@@ -111,6 +111,10 @@ function handleCardClick(cardImage, cardTitle) {
   imageCaption.textContent = cardTitle.textContent;
 
   imagePreview.onload = () => {
+    const closeButton = imageModal.querySelector(
+      ".modal__close-button_type_image"
+    );
+
     if (imagePreview.naturalWidth > imagePreview.naturalHeight) {
       imagePreview.classList.add("modal__image_landscape");
       imagePreview.classList.remove("modal__image_portrait");
@@ -119,17 +123,33 @@ function handleCardClick(cardImage, cardTitle) {
       imagePreview.classList.remove("modal__image_landscape");
     }
 
-    const imageHeight = imagePreview.offsetHeight;
-    const closeButton = imageModal.querySelector(
-      ".modal__close-button_type_image"
-    );
+    // Wait for next frame to ensure image dimensions are calculated
+    requestAnimationFrame(() => {
+      const imageRect = imagePreview.getBoundingClientRect();
+      const buttonSize = 40; // Close button width/height
+      const gap = 16; // Gap between image and close button
 
-    if (window.innerWidth > 720) {
-      imageCaption.style.top = `${imageHeight}px`;
-      closeButton.style.top = "8px";
-    } else {
-      imageCaption.style.top = `${imageHeight - 10}px`;
-    }
+      // Position close button relative to image dimensions
+      if (window.innerWidth > 720) {
+        closeButton.style.top = "30px";
+        closeButton.style.right = "0";
+        closeButton.style.left = "auto";
+      } else {
+        closeButton.style.top = "0";
+        closeButton.style.left = `${imageRect.width + gap}px`;
+        closeButton.style.right = "auto";
+      }
+
+      // Position caption
+      const imageHeight = imageRect.height;
+      if (window.innerWidth > 720) {
+        imageCaption.style.top = `${imageHeight + 24}px`;
+        imageCaption.style.left = "50px";
+      } else {
+        imageCaption.style.top = `${imageHeight - 10}px`;
+        imageCaption.style.left = "0";
+      }
+    });
   };
 
   openModal(imageModal);

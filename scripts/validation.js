@@ -8,158 +8,148 @@ const validationSettings = {
   errorClass: "modal__error_visible",
 };
 
-function getErrorHeight(formElement) {
-  const errorElements = formElement.querySelectorAll(".modal__error_visible");
+// Shared helper function to calculate total error height
+function getErrorHeight(formElement, settings) {
+  const visibleErrors = formElement.querySelectorAll(`.${settings.errorClass}`);
   let totalErrorHeight = 0;
+  const errorSpacing = window.innerWidth > 720 ? 8 : 4;
 
-  errorElements.forEach((error) => {
-    const errorHeight = error.getBoundingClientRect().height;
-    totalErrorHeight += errorHeight + 12; // Increased from 8px to 12px for more bottom spacing
+  visibleErrors.forEach((error) => {
+    const computedStyle = window.getComputedStyle(error);
+    const errorMargin = parseFloat(computedStyle.marginBottom) || errorSpacing;
+    const errorRect = error.getBoundingClientRect();
+    totalErrorHeight += errorRect.height + errorMargin;
   });
 
   return totalErrorHeight;
 }
 
-function adjustDesktopNewPostModal(formElement) {
-  if (window.innerWidth <= 720) return;
+// Shared function to adjust field wrapper positions
+function adjustFieldWrapperPositions(formElement, settings) {
+  const fieldWrappers = formElement.querySelectorAll(".modal__field-wrapper");
+  let currentOffset = 0;
 
-  const modalContainer = formElement.closest(".modal__container");
-  const contentWrapper = formElement.closest(".modal__content-wrapper");
-  const errorHeight = getErrorHeight(formElement);
+  fieldWrappers.forEach((wrapper) => {
+    const error = wrapper.querySelector(`.${settings.errorClass}`);
+    if (error && error.classList.contains(settings.errorClass)) {
+      const errorHeight = error.getBoundingClientRect().height;
+      const errorSpacing = window.innerWidth > 720 ? 8 : 4;
+      currentOffset += errorHeight + errorSpacing;
+    }
 
-  // Base heights for desktop new post modal
-  const baseContainerHeight = 415;
-  const baseContentHeight = 299;
-
-  // Calculate new heights with less spacing
-  const newContainerHeight = baseContainerHeight + errorHeight * 0.7; // Reduce the growth
-  const newContentHeight = baseContentHeight + errorHeight * 0.7;
-
-  requestAnimationFrame(() => {
-    modalContainer.style.height = `${newContainerHeight}px`;
-    contentWrapper.style.height = `${newContentHeight}px`;
+    if (currentOffset > 0) {
+      wrapper.style.transform = `translateY(${currentOffset}px)`;
+    } else {
+      wrapper.style.transform = "none";
+    }
   });
+
+  return currentOffset;
 }
 
-function adjustDesktopEditModal(formElement) {
-  if (window.innerWidth <= 720) return;
+// Specific adjustment function for Edit Profile modal
+function adjustEditProfileModal(
+  modalContainer,
+  contentWrapper,
+  totalErrorHeight
+) {
+  const mobileBase = {
+    container: 336,
+    content: 248,
+  };
 
-  const modalContainer = formElement.closest(".modal__container");
-  const contentWrapper = formElement.closest(".modal__content-wrapper");
-  const errorHeight = getErrorHeight(formElement);
+  const desktopBase = {
+    container: 415,
+    content: 299,
+  };
 
-  // Base heights for desktop edit modal
-  const baseContainerHeight = 415;
-  const baseContentHeight = 299;
+  if (window.innerWidth <= 720) {
+    const newContainerHeight = mobileBase.container + totalErrorHeight;
+    const newContentHeight = mobileBase.content + totalErrorHeight;
 
-  // Calculate new heights with same growth factor as new post modal
-  const newContainerHeight = baseContainerHeight + errorHeight * 0.7;
-  const newContentHeight = baseContentHeight + errorHeight * 0.7;
-
-  requestAnimationFrame(() => {
     modalContainer.style.height = `${newContainerHeight}px`;
     contentWrapper.style.height = `${newContentHeight}px`;
-  });
-}
-
-function adjustModalHeight(formElement) {
-  if (window.innerWidth > 720) return;
-
-  const modalContainer = formElement.closest(".modal__container");
-  const contentWrapper = formElement.closest(".modal__content-wrapper");
-  const errorHeight = getErrorHeight(formElement);
-  const isNewPostModal = formElement.closest(".modal_type_new-post");
-  const isEditModal = formElement.closest(".modal_type_edit");
-
-  // Different base heights for each modal type
-  let baseContainerHeight, baseContentHeight;
-
-  if (isNewPostModal) {
-    baseContainerHeight = 336; // Base height without padding
-    baseContentHeight = 216; // Base content height without padding
-  } else if (isEditModal) {
-    baseContainerHeight = 336;
-    baseContentHeight = 220;
   } else {
-    baseContainerHeight = 336;
-    baseContentHeight = 220;
+    const formElement = contentWrapper.querySelector(".modal__form");
+    const offset = adjustFieldWrapperPositions(formElement, validationSettings);
+
+    modalContainer.style.minHeight = `${desktopBase.container + offset}px`;
+    contentWrapper.style.minHeight = `${desktopBase.content + offset}px`;
+    modalContainer.style.height = "auto";
+    contentWrapper.style.height = "auto";
   }
+}
 
-  // Calculate new heights
-  const newContainerHeight = baseContainerHeight + errorHeight;
-  const newContentHeight = baseContentHeight + errorHeight;
+// Specific adjustment function for New Post modal
+function adjustNewPostModal(modalContainer, contentWrapper, totalErrorHeight) {
+  const mobileBase = {
+    container: 336,
+    content: 248,
+  };
 
-  requestAnimationFrame(() => {
+  const desktopBase = {
+    container: 415,
+    content: 299,
+  };
+
+  if (window.innerWidth <= 720) {
+    const newContainerHeight = mobileBase.container + totalErrorHeight;
+    const newContentHeight = mobileBase.content + totalErrorHeight;
+
     modalContainer.style.height = `${newContainerHeight}px`;
     contentWrapper.style.height = `${newContentHeight}px`;
+  } else {
+    const formElement = contentWrapper.querySelector(".modal__form");
+    const offset = adjustFieldWrapperPositions(formElement, validationSettings);
+
+    modalContainer.style.minHeight = `${desktopBase.container + offset}px`;
+    contentWrapper.style.minHeight = `${desktopBase.content + offset}px`;
+    modalContainer.style.height = "auto";
+    contentWrapper.style.height = "auto";
+  }
+}
+
+// Main adjustment function that determines which modal to adjust
+function adjustModalHeight(formElement, settings) {
+  const modalContainer = formElement.closest(".modal__container");
+  const contentWrapper = formElement.closest(".modal__content-wrapper");
+  const totalErrorHeight = getErrorHeight(formElement, settings);
+
+  // Determine which modal we're in
+  const isEditModal = formElement.closest(".modal_type_edit");
+  const isNewPostModal = formElement.closest(".modal_type_new-post");
+
+  requestAnimationFrame(() => {
+    if (isEditModal) {
+      adjustEditProfileModal(modalContainer, contentWrapper, totalErrorHeight);
+    } else if (isNewPostModal) {
+      adjustNewPostModal(modalContainer, contentWrapper, totalErrorHeight);
+    }
   });
 }
 
 // Show input error message
 function showInputError(formElement, inputElement, errorMessage, settings) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  inputElement.classList.add(settings.inputErrorClass);
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add(settings.errorClass);
 
-  if (!inputElement.validity.valid) {
-    inputElement.classList.add(settings.inputErrorClass);
-    errorElement.textContent = errorMessage;
-    errorElement.classList.add(settings.errorClass);
-
-    requestAnimationFrame(() => {
-      if (window.innerWidth <= 720) {
-        adjustModalHeight(formElement);
-      } else {
-        // Check modal type and use appropriate function
-        if (formElement.closest(".modal_type_new-post")) {
-          adjustDesktopNewPostModal(formElement);
-        } else if (formElement.closest(".modal_type_edit")) {
-          adjustDesktopEditModal(formElement);
-        }
-      }
-    });
-  }
+  requestAnimationFrame(() => {
+    adjustModalHeight(formElement, settings);
+  });
 }
 
 // Hide input error message
 function hideInputError(formElement, inputElement, settings) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  inputElement.classList.remove(settings.inputErrorClass);
+  errorElement.classList.remove(settings.errorClass);
+  errorElement.textContent = "";
 
-  if (inputElement.validity.valid) {
-    inputElement.classList.remove(settings.inputErrorClass);
-    errorElement.classList.remove(settings.errorClass);
-    errorElement.textContent = "";
-
-    const hasVisibleErrors = formElement.querySelector(".modal__error_visible");
-    if (hasVisibleErrors) {
-      if (window.innerWidth <= 720) {
-        adjustModalHeight(formElement);
-      } else {
-        // Check modal type and use appropriate function
-        if (formElement.closest(".modal_type_new-post")) {
-          adjustDesktopNewPostModal(formElement);
-        } else if (formElement.closest(".modal_type_edit")) {
-          adjustDesktopEditModal(formElement);
-        }
-      }
-    } else {
-      const modalContainer = formElement.closest(".modal__container");
-      const contentWrapper = formElement.closest(".modal__content-wrapper");
-
-      if (window.innerWidth <= 720) {
-        const isNewPostModal = formElement.closest(".modal_type_new-post");
-        if (isNewPostModal) {
-          modalContainer.style.height = "336px";
-          contentWrapper.style.height = "216px";
-        } else {
-          modalContainer.style.height = "336px";
-          contentWrapper.style.height = "220px";
-        }
-      } else {
-        // Reset desktop heights
-        modalContainer.style.height = "415px";
-        contentWrapper.style.height = "299px";
-      }
-    }
-  }
+  requestAnimationFrame(() => {
+    adjustModalHeight(formElement, settings);
+  });
 }
 
 // Check input validity
@@ -192,6 +182,28 @@ function toggleButtonState(inputList, buttonElement, settings) {
   }
 }
 
+// Reset form validation state
+function resetValidation(formElement, settings) {
+  const inputList = Array.from(
+    formElement.querySelectorAll(settings.inputSelector)
+  );
+  const buttonElement = formElement.querySelector(
+    settings.submitButtonSelector
+  );
+
+  inputList.forEach((inputElement) => {
+    hideInputError(formElement, inputElement, settings);
+  });
+
+  // Ensure button is disabled by default for new post form
+  if (formElement.id === "new-post-form") {
+    buttonElement.classList.add(settings.inactiveButtonClass);
+    buttonElement.disabled = true;
+  } else {
+    toggleButtonState(inputList, buttonElement, settings);
+  }
+}
+
 // Set event listeners for a form
 function setEventListeners(formElement, settings) {
   const inputList = Array.from(
@@ -202,7 +214,20 @@ function setEventListeners(formElement, settings) {
   );
 
   // Initial button state
-  toggleButtonState(inputList, buttonElement, settings);
+  if (formElement.id === "new-post-form") {
+    buttonElement.classList.add(settings.inactiveButtonClass);
+    buttonElement.disabled = true;
+  } else {
+    toggleButtonState(inputList, buttonElement, settings);
+  }
+
+  // Add reset listener to handle form resets
+  formElement.addEventListener("reset", () => {
+    // setTimeout ensures this runs after the form reset
+    setTimeout(() => {
+      resetValidation(formElement, settings);
+    }, 0);
+  });
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", () => {
@@ -219,25 +244,8 @@ function enableValidation(settings) {
     formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
     });
-
     setEventListeners(formElement, settings);
   });
-}
-
-// Reset form validation state
-function resetValidation(formElement, settings) {
-  const inputList = Array.from(
-    formElement.querySelectorAll(settings.inputSelector)
-  );
-  const buttonElement = formElement.querySelector(
-    settings.submitButtonSelector
-  );
-
-  inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement, settings);
-  });
-
-  toggleButtonState(inputList, buttonElement, settings);
 }
 
 // Make functions and settings globally available

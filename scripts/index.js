@@ -135,9 +135,9 @@ function handleCardClick(cardImage, cardTitle) {
         closeButton.style.right = "0";
         closeButton.style.left = "auto";
       } else {
-        closeButton.style.top = "0";
-        closeButton.style.left = `${imageRect.width + gap}px`;
-        closeButton.style.right = "auto";
+        closeButton.style.top = "-48px";
+        closeButton.style.right = "-8px";
+        closeButton.style.left = "auto";
       }
 
       // Position caption

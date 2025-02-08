@@ -373,6 +373,10 @@
     transition: opacity 0.3s ease;
   }
 
+  .modal__close-button:hover {
+    opacity: 1;
+  }
+
   .modal__content-wrapper {
     width: 276px;
     min-height: 248px;
@@ -390,6 +394,26 @@
 
   .modal__label-text {
     width: 276px;
+  }
+
+  /* Close button */
+  .modal__close-button:not(.modal__close-button_type_image)::before,
+  .modal__close-button:not(.modal__close-button_type_image)::after {
+    content: "";
+    position: absolute;
+    width: 22.63px;
+    height: 2px;
+    background-color: #212121;
+    opacity: 0.4;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .modal__close-button:not(.modal__close-button_type_image):hover::before,
+  .modal__close-button:not(.modal__close-button_type_image):hover::after {
+    opacity: 1;
   }
 }
 
@@ -426,13 +450,6 @@
   height: auto;
 }
 
-.modal__image {
-  display: block;
-  border-radius: 8px;
-  object-fit: contain;
-  position: relative;
-}
-
 /* Portrait image */
 .modal__image.modal__image_portrait {
   max-width: 446.43px;
@@ -449,24 +466,85 @@
   max-height: 80vh;
 }
 
+/* Add specific mobile overrides for image modal */
+@media screen and (max-width: 720px) {
+  .modal_type_image .modal__container {
+    /* Remove standard white background/border for image modal */
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .modal__image.modal__image_portrait,
+  .modal__image.modal__image_landscape {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+  }
+
+  /* Position close button above image for mobile */
+  .modal__close-button_type_image {
+    top: -48px;
+    right: 0;
+    left: auto;
+  }
+
+  .modal__caption {
+    width: auto;
+    max-width: 300px;
+    font-size: 16px;
+    line-height: 19.2px;
+  }
+}
+
+.modal__image {
+  display: block;
+  border-radius: 8px;
+  object-fit: contain;
+  position: relative;
+}
+
 .modal__caption {
   position: absolute;
   left: 0;
   font-family: "Poppins", "Arial", sans-serif;
-  font-size: 20px;
-  line-height: 24px;
   font-weight: 500;
   color: #ffffff;
   background: #212121;
   border-radius: 8px;
   padding: 4px 8px;
-  width: auto;
-  max-width: 100%;
   box-sizing: border-box;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: inline-block;
+  width: auto;
+}
+
+@media screen and (min-width: 721px) {
+  .modal__caption {
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  /* Set max-width constraints for different image types */
+  .modal__image_portrait ~ .modal__caption {
+    max-width: 446.43px;
+  }
+
+  .modal__image_landscape ~ .modal__caption {
+    max-width: 991.5px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .modal__caption {
+    font-size: 16px;
+    line-height: 19.2px;
+    max-width: 300px;
+  }
 }
 
 /* Image modal close button - completely separate styles */
@@ -483,7 +561,7 @@
   align-items: center;
   justify-content: center;
   opacity: 1;
-  transition: opacity 0.3s ease, right 0.3s ease, top 0.3s ease, left 0.3s ease;
+  transition: right 0.3s ease, top 0.3s ease, left 0.3s ease, opacity 0.3s ease;
 }
 
 .modal__close-button_type_image:hover {
@@ -500,11 +578,6 @@
   height: 40px;
   filter: brightness(0) invert(1);
   opacity: 1;
-  transition: opacity 0.3s ease;
-}
-
-.modal__close-button_type_image:hover .modal__close-icon {
-  opacity: 0.4;
 }
 
 @media screen and (max-width: 720px) {

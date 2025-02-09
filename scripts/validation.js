@@ -1,138 +1,116 @@
 // Settings for form validation
 const validationSettings = {
+  // Form and input selectors
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
   submitButtonSelector: ".modal__button",
+  profileFormName: "profile-form",
+  newPostFormName: "new-post-form",
+
+  // Class names
   inactiveButtonClass: "modal__button_disabled",
   inputErrorClass: "modal__input_type_error",
   errorClass: "modal__error_visible",
+  modalOpenedClass: "modal_opened",
+  imageLandscapeClass: "modal__image_landscape",
+  imagePortraitClass: "modal__image_portrait",
+
+  // Modal structure selectors
+  fieldWrapperSelector: ".modal__field-wrapper",
+  modalContainerSelector: ".modal__container",
+  modalContentWrapperSelector: ".modal__content-wrapper",
+  modalSelector: ".modal",
+
+  // Modal type selectors
+  editModalSelector: ".modal_type_edit",
+  newPostModalSelector: ".modal_type_new-post",
+  imageModalSelector: ".modal_type_image",
+
+  // Button selectors
+  closeButtonSelector: ".modal__close-button",
+  closeButtonImageSelector: ".modal__close-button_type_image",
+  editButtonSelector: ".profile__edit-button",
+  addButtonSelector: ".profile__add-button",
+
+  // Input field selectors
+  nameInputSelector: ".modal__input_type_name",
+  descriptionInputSelector: ".modal__input_type_description",
+  imageLinkInputSelector: ".modal__input_type_image-link",
+  captionInputSelector: ".modal__input_type_caption",
+
+  // Profile selectors
+  profileNameSelector: ".profile__name",
+  profileDescriptionSelector: ".profile__description",
+
+  // Image modal selectors
+  imageSelector: ".modal__image",
+  captionSelector: ".modal__caption",
+
+  // Gallery selectors
+  cardTemplateSelector: "#card-template",
+  cardListSelector: ".gallery__cards",
+  cardSelector: ".card",
+  cardImageSelector: ".card__image",
+  cardTitleSelector: ".card__title",
+  cardLikeButtonSelector: ".card__like-button",
+  cardDeleteButtonSelector: ".card__delete-button",
+  cardLikeActiveClass: "card__like-button_active",
+
+  // Error selectors
+  errorSelector: ".modal__error",
+  errorIdTemplate: "{inputId}-error", // Template for error element IDs
+
+  // Breakpoint and measurements
+  mobileBreakpoint: 769,
+  defaultHeights: {
+    mobile: {
+      fieldWrapper: 74,
+      container: 336,
+      content: 248,
+    },
+    desktop: {
+      fieldWrapper: 78,
+      container: 415,
+      content: 272,
+    },
+  },
 };
-
-// Calculate total height of visible error messages to adjust modal size
-function getErrorHeight(formElement, settings) {
-  const visibleErrors = formElement.querySelectorAll(`.${settings.errorClass}`);
-  let totalErrorHeight = 0;
-  const errorSpacing = window.innerWidth > 720 ? 8 : 4;
-
-  visibleErrors.forEach((error) => {
-    const computedStyle = window.getComputedStyle(error);
-    const errorMargin = parseFloat(computedStyle.marginBottom) || errorSpacing;
-    const errorRect = error.getBoundingClientRect();
-    totalErrorHeight += errorRect.height + errorMargin;
-  });
-
-  return totalErrorHeight;
-}
-
-// Move form fields down when errors appear to prevent overlap
-function adjustFieldWrapperPositions(formElement, settings) {
-  const fieldWrappers = formElement.querySelectorAll(".modal__field-wrapper");
-  let currentOffset = 0;
-
-  fieldWrappers.forEach((wrapper) => {
-    const error = wrapper.querySelector(`.${settings.errorClass}`);
-    if (error && error.classList.contains(settings.errorClass)) {
-      const errorHeight = error.getBoundingClientRect().height;
-      const errorSpacing = window.innerWidth > 720 ? 8 : 4;
-      currentOffset += errorHeight + errorSpacing;
-    }
-
-    if (currentOffset > 0) {
-      wrapper.style.transform = `translateY(${currentOffset}px)`;
-    } else {
-      wrapper.style.transform = "none";
-    }
-  });
-
-  return currentOffset;
-}
-
-// Adjust Edit Profile modal height to fit error messages
-function adjustEditProfileModal(
-  modalContainer,
-  contentWrapper,
-  totalErrorHeight
-) {
-  const mobileBase = {
-    container: 336,
-    content: 248,
-  };
-
-  if (window.innerWidth <= 720) {
-    const newContainerHeight = mobileBase.container + totalErrorHeight;
-    const newContentHeight = mobileBase.content + totalErrorHeight;
-
-    modalContainer.style.height = `${newContainerHeight}px`;
-    contentWrapper.style.height = `${newContentHeight}px`;
-  } else {
-    window.adjustDesktopModalHeight(
-      contentWrapper.querySelector(".modal__form"),
-      validationSettings
-    );
-  }
-}
-
-// Adjust New Post modal height to fit error messages
-function adjustNewPostModal(modalContainer, contentWrapper, totalErrorHeight) {
-  const mobileBase = {
-    container: 336,
-    content: 248,
-  };
-
-  if (window.innerWidth <= 720) {
-    const newContainerHeight = mobileBase.container + totalErrorHeight;
-    const newContentHeight = mobileBase.content + totalErrorHeight;
-
-    modalContainer.style.height = `${newContainerHeight}px`;
-    contentWrapper.style.height = `${newContentHeight}px`;
-  } else {
-    window.adjustDesktopModalHeight(
-      contentWrapper.querySelector(".modal__form"),
-      validationSettings
-    );
-  }
-}
 
 // Determine which modal needs height adjustment and apply changes
 function adjustModalHeight(formElement, settings) {
-  const modalContainer = formElement.closest(".modal__container");
-  const contentWrapper = formElement.closest(".modal__content-wrapper");
-  const totalErrorHeight = getErrorHeight(formElement, settings);
-
-  const isEditModal = formElement.closest(".modal_type_edit");
-  const isNewPostModal = formElement.closest(".modal_type_new-post");
-
   requestAnimationFrame(() => {
-    if (isEditModal) {
-      adjustEditProfileModal(modalContainer, contentWrapper, totalErrorHeight);
-    } else if (isNewPostModal) {
-      adjustNewPostModal(modalContainer, contentWrapper, totalErrorHeight);
+    if (window.innerWidth <= settings.mobileBreakpoint) {
+      window.adjustMobileModalHeight(formElement, settings);
+    } else {
+      window.adjustDesktopModalHeight(formElement, settings);
     }
   });
 }
 
 // Display error message for invalid input
 function showInputError(formElement, inputElement, errorMessage, settings) {
-  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  const errorId = settings.errorIdTemplate.replace(
+    "{inputId}",
+    inputElement.id
+  );
+  const errorElement = formElement.querySelector(`#${errorId}`);
   inputElement.classList.add(settings.inputErrorClass);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(settings.errorClass);
-
-  requestAnimationFrame(() => {
-    adjustModalHeight(formElement, settings);
-  });
+  adjustModalHeight(formElement, settings);
 }
 
 // Hide error message when input becomes valid
 function hideInputError(formElement, inputElement, settings) {
-  const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+  const errorId = settings.errorIdTemplate.replace(
+    "{inputId}",
+    inputElement.id
+  );
+  const errorElement = formElement.querySelector(`#${errorId}`);
   inputElement.classList.remove(settings.inputErrorClass);
   errorElement.classList.remove(settings.errorClass);
   errorElement.textContent = "";
-
-  requestAnimationFrame(() => {
-    adjustModalHeight(formElement, settings);
-  });
+  adjustModalHeight(formElement, settings);
 }
 
 // Check if input is valid and show/hide error accordingly
@@ -173,10 +151,25 @@ function resetValidation(formElement, settings) {
     settings.submitButtonSelector
   );
 
+  // Record base heights for mobile modals
+  if (
+    window.innerWidth <= settings.mobileBreakpoint &&
+    window.recordBaseHeightsMobile
+  ) {
+    window.recordBaseHeightsMobile(formElement, settings);
+  } else if (
+    window.innerWidth > settings.mobileBreakpoint &&
+    window.recordBaseHeightsDesktop
+  ) {
+    window.recordBaseHeightsDesktop(formElement, settings);
+  }
+
+  // Only clear error states, not the actual input values
   inputList.forEach((inputElement) => {
     hideInputError(formElement, inputElement, settings);
   });
 
+  // Enable/disable submit button based on current input values
   toggleButtonState(inputList, buttonElement, settings);
 }
 

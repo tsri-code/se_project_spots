@@ -1,26 +1,50 @@
 // Get all the DOM elements we need to work with
-const editProfileButton = document.querySelector(".profile__edit-button");
-const editProfileModal = document.querySelector(".modal_type_edit");
-const closeModalButtons = document.querySelectorAll(".modal__close-button");
-const profileFormElement = document.forms["profile-form"];
-const nameInput = profileFormElement.querySelector(".modal__input_type_name");
+const editProfileButton = document.querySelector(
+  validationSettings.editButtonSelector
+);
+const editProfileModal = document.querySelector(
+  validationSettings.editModalSelector
+);
+const closeModalButtons = document.querySelectorAll(
+  validationSettings.closeButtonSelector
+);
+const profileFormElement = document.forms[validationSettings.profileFormName];
+const nameInput = profileFormElement.querySelector(
+  validationSettings.nameInputSelector
+);
 const jobInput = profileFormElement.querySelector(
-  ".modal__input_type_description"
+  validationSettings.descriptionInputSelector
 );
-const profileNameElement = document.querySelector(".profile__name");
-const profileJobElement = document.querySelector(".profile__description");
-const addPostButton = document.querySelector(".profile__add-button");
-const newPostModal = document.querySelector(".modal_type_new-post");
-const newPostForm = document.forms["new-post-form"];
+const profileNameElement = document.querySelector(
+  validationSettings.profileNameSelector
+);
+const profileJobElement = document.querySelector(
+  validationSettings.profileDescriptionSelector
+);
+const addPostButton = document.querySelector(
+  validationSettings.addButtonSelector
+);
+const newPostModal = document.querySelector(
+  validationSettings.newPostModalSelector
+);
+const newPostForm = document.forms[validationSettings.newPostFormName];
 const imageLinkInput = newPostForm.querySelector(
-  ".modal__input_type_image-link"
+  validationSettings.imageLinkInputSelector
 );
-const captionInput = newPostForm.querySelector(".modal__input_type_caption");
-const imageModal = document.querySelector(".modal_type_image");
-const imagePreview = imageModal.querySelector(".modal__image");
-const imageCaption = imageModal.querySelector(".modal__caption");
-const cardTemplate = document.querySelector("#card-template").content;
-const cardList = document.querySelector(".gallery__cards");
+const captionInput = newPostForm.querySelector(
+  validationSettings.captionInputSelector
+);
+const imageModal = document.querySelector(
+  validationSettings.imageModalSelector
+);
+const imagePreview = imageModal.querySelector(validationSettings.imageSelector);
+const imageCaption = imageModal.querySelector(
+  validationSettings.captionSelector
+);
+const cardTemplate = document.querySelector(
+  validationSettings.cardTemplateSelector
+).content;
+const cardList = document.querySelector(validationSettings.cardListSelector);
 
 // Sample cards to show when the page loads
 const initialCards = [
@@ -54,10 +78,18 @@ const initialCards = [
   },
 ];
 
+// Store the last entered values
+let lastEnteredName = "";
+let lastEnteredJob = "";
+let lastEnteredCaption = "";
+let lastEnteredImageLink = "";
+
 // Close modal when Escape key is pressed
 function handleEscClose(evt) {
   if (evt.key === "Escape") {
-    const openedModal = document.querySelector(".modal_opened");
+    const openedModal = document.querySelector(
+      `.${validationSettings.modalOpenedClass}`
+    );
     if (openedModal) {
       closeModal(openedModal);
     }
@@ -66,28 +98,61 @@ function handleEscClose(evt) {
 
 // Show modal and set up escape key listener
 function openModal(modal) {
-  modal.classList.add("modal_opened");
+  modal.classList.add(validationSettings.modalOpenedClass);
   document.addEventListener("keydown", handleEscClose);
 }
 
 // Hide modal and remove escape key listener
 function closeModal(modal) {
-  modal.classList.remove("modal_opened");
+  // Store the current values before closing modals
+  if (modal === editProfileModal) {
+    lastEnteredName = nameInput.value;
+    lastEnteredJob = jobInput.value;
+  } else if (modal === newPostModal) {
+    lastEnteredCaption = captionInput.value;
+    lastEnteredImageLink = imageLinkInput.value;
+  }
+  modal.classList.remove(validationSettings.modalOpenedClass);
   document.removeEventListener("keydown", handleEscClose);
 }
 
 // Open Edit Profile modal and fill in current values
 function openEditProfileModal() {
-  nameInput.value = profileNameElement.textContent;
-  jobInput.value = profileJobElement.textContent;
-  resetValidation(profileFormElement, validationSettings);
+  // Use last entered values if they exist, otherwise use saved profile values
+  if (lastEnteredName || lastEnteredJob) {
+    nameInput.value = lastEnteredName;
+    jobInput.value = lastEnteredJob;
+  } else {
+    nameInput.value = profileNameElement.textContent.trim();
+    jobInput.value = profileJobElement.textContent.trim();
+  }
+
+  // Check validity of the form with current values
+  const inputList = [nameInput, jobInput];
+  const buttonElement = profileFormElement.querySelector(
+    validationSettings.submitButtonSelector
+  );
+  toggleButtonState(inputList, buttonElement, validationSettings);
+
   openModal(editProfileModal);
 }
 
-// Open New Post modal with empty form
+// Open New Post modal and fill in last entered values if they exist
 function openNewPostModal() {
-  newPostForm.reset();
-  resetValidation(newPostForm, validationSettings);
+  if (lastEnteredCaption || lastEnteredImageLink) {
+    captionInput.value = lastEnteredCaption;
+    imageLinkInput.value = lastEnteredImageLink;
+  } else {
+    newPostForm.reset();
+  }
+
+  // Check validity of the form with current values
+  const inputList = [captionInput, imageLinkInput];
+  const buttonElement = newPostForm.querySelector(
+    validationSettings.submitButtonSelector
+  );
+  toggleButtonState(inputList, buttonElement, validationSettings);
+
   openModal(newPostModal);
 }
 
@@ -96,6 +161,9 @@ function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   profileNameElement.textContent = nameInput.value;
   profileJobElement.textContent = jobInput.value;
+  // Clear the stored values since we've saved them
+  lastEnteredName = "";
+  lastEnteredJob = "";
   closeModal(editProfileModal);
 }
 
@@ -108,6 +176,9 @@ function handleNewPostFormSubmit(evt) {
   };
   renderCard(newCard, "prepend");
   closeModal(newPostModal);
+  // Clear the stored values since we've saved them
+  lastEnteredCaption = "";
+  lastEnteredImageLink = "";
   newPostForm.reset();
 }
 
@@ -120,29 +191,29 @@ function handleCardClick(cardImage, cardTitle) {
   // Position elements after image loads
   imagePreview.onload = () => {
     const closeButton = imageModal.querySelector(
-      ".modal__close-button_type_image"
+      validationSettings.closeButtonImageSelector
     );
 
     // Set image orientation class
     if (imagePreview.naturalWidth > imagePreview.naturalHeight) {
-      imagePreview.classList.add("modal__image_landscape");
-      imagePreview.classList.remove("modal__image_portrait");
+      imagePreview.classList.add(validationSettings.imageLandscapeClass);
+      imagePreview.classList.remove(validationSettings.imagePortraitClass);
     } else {
-      imagePreview.classList.add("modal__image_portrait");
-      imagePreview.classList.remove("modal__image_landscape");
+      imagePreview.classList.add(validationSettings.imagePortraitClass);
+      imagePreview.classList.remove(validationSettings.imageLandscapeClass);
     }
 
     // Position close button and caption after image dimensions are known
     requestAnimationFrame(() => {
       const imageRect = imagePreview.getBoundingClientRect();
       const buttonSize = 40;
-      const gap = 16;
+      const gap = 10;
 
       // Adjust close button position based on screen size
-      if (window.innerWidth > 720) {
-        closeButton.style.top = "30px";
-        closeButton.style.right = "0";
-        closeButton.style.left = "auto";
+      if (window.innerWidth > 769) {
+        closeButton.style.top = "0";
+        closeButton.style.left = `${imageRect.width + gap}px`;
+        closeButton.style.right = "auto";
       } else {
         closeButton.style.top = "-48px";
         closeButton.style.right = "-8px";
@@ -151,9 +222,9 @@ function handleCardClick(cardImage, cardTitle) {
 
       // Position caption relative to image
       const imageHeight = imageRect.height;
-      if (window.innerWidth > 720) {
-        imageCaption.style.top = `${imageHeight + 24}px`;
-        imageCaption.style.left = "50px";
+      if (window.innerWidth > 769) {
+        imageCaption.style.top = `${imageHeight + gap}px`;
+        imageCaption.style.left = "0";
       } else {
         imageCaption.style.top = `${imageHeight - 10}px`;
         imageCaption.style.left = "0";
@@ -166,11 +237,21 @@ function handleCardClick(cardImage, cardTitle) {
 
 // Create a new card element from template
 function getCardElement(data) {
-  const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
-  const cardImage = cardElement.querySelector(".card__image");
-  const cardTitle = cardElement.querySelector(".card__title");
-  const likeButton = cardElement.querySelector(".card__like-button");
-  const deleteButton = cardElement.querySelector(".card__delete-button");
+  const cardElement = cardTemplate
+    .querySelector(validationSettings.cardSelector)
+    .cloneNode(true);
+  const cardImage = cardElement.querySelector(
+    validationSettings.cardImageSelector
+  );
+  const cardTitle = cardElement.querySelector(
+    validationSettings.cardTitleSelector
+  );
+  const likeButton = cardElement.querySelector(
+    validationSettings.cardLikeButtonSelector
+  );
+  const deleteButton = cardElement.querySelector(
+    validationSettings.cardDeleteButtonSelector
+  );
 
   // Set up card content
   cardImage.src = data.link;
@@ -179,7 +260,7 @@ function getCardElement(data) {
 
   // Add card interactions
   likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("card__like-button_active");
+    likeButton.classList.toggle(validationSettings.cardLikeActiveClass);
   });
 
   deleteButton.addEventListener("click", () => {
@@ -207,21 +288,25 @@ newPostForm.addEventListener("submit", handleNewPostFormSubmit);
 
 // Set up close button listeners for all modals
 closeModalButtons.forEach((button) => {
-  const modal = button.closest(".modal");
+  const modal = button.closest(validationSettings.modalSelector);
   button.addEventListener("click", () => closeModal(modal));
 });
 
 // Close modal by clicking overlay
-const modals = document.querySelectorAll(".modal");
+const modals = document.querySelectorAll(validationSettings.modalSelector);
 modals.forEach((modal) => {
   modal.addEventListener("mousedown", (evt) => {
-    if (evt.target.classList.contains("modal")) {
+    if (
+      evt.target.classList.contains(validationSettings.modalSelector.slice(1))
+    ) {
       closeModal(modal);
     }
   });
 
   modal.addEventListener("touchstart", (evt) => {
-    if (evt.target.classList.contains("modal")) {
+    if (
+      evt.target.classList.contains(validationSettings.modalSelector.slice(1))
+    ) {
       closeModal(modal);
     }
   });

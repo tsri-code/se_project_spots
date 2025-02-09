@@ -1,27 +1,15 @@
-// these are the base measurements we need for desktop
-const desktopBase = {
-  container: {
-    padding: {
-      top: 32,
-      bottom: 40,
-      horizontal: 50,
-    },
-  },
-  content: {
-    gap: 32,
-  },
-  fieldWrapper: {
-    height: 78,
-    gap: 8,
-    marginBottom: 32,
-  },
+// Base measurements for mobile modals
+const mobileBase = {
   error: {
-    spacing: 8,
+    spacing: 4, // Space between error and next field
+  },
+  field: {
+    gap: 24, // Default gap between form fields
   },
 };
 
 // Store base heights and margins when modal opens
-function recordBaseHeightsDesktop(formElement, settings) {
+function recordBaseHeightsMobile(formElement, settings) {
   const fieldWrappers = formElement.querySelectorAll(
     settings.fieldWrapperSelector
   );
@@ -33,7 +21,7 @@ function recordBaseHeightsDesktop(formElement, settings) {
 }
 
 // Calculate and adjust field heights based on errors
-function adjustDesktopFields(formElement, settings) {
+function adjustMobileFields(formElement, settings) {
   const fieldWrappers = formElement.querySelectorAll(
     settings.fieldWrapperSelector
   );
@@ -42,10 +30,9 @@ function adjustDesktopFields(formElement, settings) {
     // Reset to base measurements first
     const baseHeight =
       parseFloat(wrapper.dataset.baseHeight) ||
-      settings.defaultHeights.desktop.fieldWrapper;
+      settings.defaultHeights.mobile.fieldWrapper;
     const baseMargin =
-      parseFloat(wrapper.dataset.baseMarginBottom) ||
-      desktopBase.fieldWrapper.marginBottom;
+      parseFloat(wrapper.dataset.baseMarginBottom) || mobileBase.field.gap;
 
     wrapper.style.height = `${baseHeight}px`;
     wrapper.style.marginBottom = `${baseMargin}px`;
@@ -54,7 +41,7 @@ function adjustDesktopFields(formElement, settings) {
     const error = wrapper.querySelector(`.${settings.errorClass}`);
     if (error && error.classList.contains(settings.errorClass)) {
       const errorHeight = error.offsetHeight;
-      const errorMargin = desktopBase.error.spacing;
+      const errorMargin = mobileBase.error.spacing;
 
       // Adjust wrapper height to include error
       wrapper.style.height = `${baseHeight + errorHeight + errorMargin}px`;
@@ -62,31 +49,35 @@ function adjustDesktopFields(formElement, settings) {
   });
 }
 
-// Main function to handle desktop modal height adjustments
-function adjustDesktopModalHeight(formElement, settings) {
-  if (window.innerWidth > settings.mobileBreakpoint) {
+// Main function to handle mobile modal height adjustments
+function adjustMobileModalHeight(formElement, settings) {
+  if (window.innerWidth <= settings.mobileBreakpoint) {
     const modalContainer = formElement.closest(settings.modalContainerSelector);
     const contentWrapper = modalContainer.querySelector(
       settings.modalContentWrapperSelector
     );
 
-    // Clear inline heights to allow natural flow
+    // Reset container heights to measure natural size
     modalContainer.style.height = "";
     contentWrapper.style.height = "";
 
-    // Expand each field wrapper for any errors
-    adjustDesktopFields(formElement, settings);
+    // Adjust fields for errors
+    adjustMobileFields(formElement, settings);
 
-    // Now measure the new needed height
-    const expandedHeight = modalContainer.offsetHeight;
-    const expandedContentHeight = contentWrapper.offsetHeight;
+    // Let the modal grow naturally based on content
+    const newContainerHeight = modalContainer.offsetHeight;
+    const newContentHeight = contentWrapper.offsetHeight;
 
-    // Force the container and content wrapper to the new size
-    modalContainer.style.height = `${expandedHeight}px`;
-    contentWrapper.style.height = `${expandedContentHeight}px`;
+    // Only set explicit heights if they differ from defaults
+    if (newContainerHeight > settings.defaultHeights.mobile.container) {
+      modalContainer.style.height = `${newContainerHeight}px`;
+    }
+    if (newContentHeight > settings.defaultHeights.mobile.content) {
+      contentWrapper.style.height = `${newContentHeight}px`;
+    }
   }
 }
 
 // Make these functions available to validation.js
-window.adjustDesktopModalHeight = adjustDesktopModalHeight;
-window.recordBaseHeightsDesktop = recordBaseHeightsDesktop;
+window.adjustMobileModalHeight = adjustMobileModalHeight;
+window.recordBaseHeightsMobile = recordBaseHeightsMobile;

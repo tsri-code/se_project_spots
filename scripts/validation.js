@@ -1,13 +1,13 @@
-// Settings for form validation
+// All the settings for form validation in one place
 const validationSettings = {
-  // Form and input selectors
+  // Basic form elements
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
   submitButtonSelector: ".modal__button",
   profileFormName: "profile-form",
   newPostFormName: "new-post-form",
 
-  // Class names
+  // Classes for different states
   inactiveButtonClass: "modal__button_disabled",
   inputErrorClass: "modal__input_type_error",
   errorClass: "modal__error_visible",
@@ -15,38 +15,38 @@ const validationSettings = {
   imageLandscapeClass: "modal__image_landscape",
   imagePortraitClass: "modal__image_portrait",
 
-  // Modal structure selectors
+  // Modal structure
   fieldWrapperSelector: ".modal__field-wrapper",
   modalContainerSelector: ".modal__container",
   modalContentWrapperSelector: ".modal__content-wrapper",
   modalSelector: ".modal",
 
-  // Modal type selectors
+  // Different types of modals
   editModalSelector: ".modal_type_edit",
   newPostModalSelector: ".modal_type_new-post",
   imageModalSelector: ".modal_type_image",
 
-  // Button selectors
+  // Buttons
   closeButtonSelector: ".modal__close-button",
   closeButtonImageSelector: ".modal__close-button_type_image",
   editButtonSelector: ".profile__edit-button",
   addButtonSelector: ".profile__add-button",
 
-  // Input field selectors
+  // Form inputs
   nameInputSelector: ".modal__input_type_name",
   descriptionInputSelector: ".modal__input_type_description",
   imageLinkInputSelector: ".modal__input_type_image-link",
   captionInputSelector: ".modal__input_type_caption",
 
-  // Profile selectors
+  // Profile elements
   profileNameSelector: ".profile__name",
   profileDescriptionSelector: ".profile__description",
 
-  // Image modal selectors
+  // Image preview elements
   imageSelector: ".modal__image",
   captionSelector: ".modal__caption",
 
-  // Gallery selectors
+  // Card elements
   cardTemplateSelector: "#card-template",
   cardListSelector: ".gallery__cards",
   cardSelector: ".card",
@@ -56,11 +56,11 @@ const validationSettings = {
   cardDeleteButtonSelector: ".card__delete-button",
   cardLikeActiveClass: "card__like-button_active",
 
-  // Error selectors
+  // Error handling
   errorSelector: ".modal__error",
-  errorIdTemplate: "{inputId}-error", // Template for error element IDs
+  errorIdTemplate: "{inputId}-error", // How we find error elements
 
-  // Breakpoint and measurements
+  // Screen sizes and measurements
   mobileBreakpoint: 769,
   defaultHeights: {
     mobile: {
@@ -76,7 +76,7 @@ const validationSettings = {
   },
 };
 
-// Determine which modal needs height adjustment and apply changes
+// Figure out if we need to adjust mobile or desktop modal height
 function adjustModalHeight(formElement, settings) {
   requestAnimationFrame(() => {
     if (window.innerWidth <= settings.mobileBreakpoint) {
@@ -87,7 +87,7 @@ function adjustModalHeight(formElement, settings) {
   });
 }
 
-// Display error message for invalid input
+// Show error message when input is invalid
 function showInputError(formElement, inputElement, errorMessage, settings) {
   const errorId = settings.errorIdTemplate.replace(
     "{inputId}",
@@ -100,7 +100,7 @@ function showInputError(formElement, inputElement, errorMessage, settings) {
   adjustModalHeight(formElement, settings);
 }
 
-// Hide error message when input becomes valid
+// Hide error message once input becomes valid
 function hideInputError(formElement, inputElement, settings) {
   const errorId = settings.errorIdTemplate.replace(
     "{inputId}",
@@ -113,7 +113,7 @@ function hideInputError(formElement, inputElement, settings) {
   adjustModalHeight(formElement, settings);
 }
 
-// Check if input is valid and show/hide error accordingly
+// Check if the input is valid and show/hide error message
 function checkInputValidity(formElement, inputElement, settings) {
   if (!inputElement.validity.valid) {
     showInputError(
@@ -127,7 +127,7 @@ function checkInputValidity(formElement, inputElement, settings) {
   }
 }
 
-// Enable/disable submit button based on form validity
+// Enable/disable the submit button based on whether form is valid
 function toggleButtonState(inputList, buttonElement, settings) {
   const hasInvalidInput = inputList.some(
     (inputElement) => !inputElement.validity.valid
@@ -142,7 +142,7 @@ function toggleButtonState(inputList, buttonElement, settings) {
   }
 }
 
-// Clear validation state when form is reset or reopened
+// Reset validation state when form is reopened or reset
 function resetValidation(formElement, settings) {
   const inputList = Array.from(
     formElement.querySelectorAll(settings.inputSelector)
@@ -151,7 +151,7 @@ function resetValidation(formElement, settings) {
     settings.submitButtonSelector
   );
 
-  // Record base heights for mobile modals
+  // Record heights for the right screen size
   if (
     window.innerWidth <= settings.mobileBreakpoint &&
     window.recordBaseHeightsMobile
@@ -164,16 +164,16 @@ function resetValidation(formElement, settings) {
     window.recordBaseHeightsDesktop(formElement, settings);
   }
 
-  // Only clear error states, not the actual input values
+  // Clear any error states but keep input values
   inputList.forEach((inputElement) => {
     hideInputError(formElement, inputElement, settings);
   });
 
-  // Enable/disable submit button based on current input values
+  // Update submit button state
   toggleButtonState(inputList, buttonElement, settings);
 }
 
-// Set up validation listeners for all inputs in a form
+// Set up all the validation listeners for a form
 function setEventListeners(formElement, settings) {
   const inputList = Array.from(
     formElement.querySelectorAll(settings.inputSelector)
@@ -192,7 +192,7 @@ function setEventListeners(formElement, settings) {
   });
 }
 
-// Initialize validation for all forms
+// Start validation on all forms
 function enableValidation(settings) {
   const formList = Array.from(document.querySelectorAll(settings.formSelector));
   formList.forEach((formElement) => {
@@ -204,5 +204,5 @@ function enableValidation(settings) {
   });
 }
 
-// Start form validation
+// Kick off form validation
 enableValidation(validationSettings);

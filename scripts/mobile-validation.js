@@ -1,14 +1,14 @@
-// Base measurements for mobile modals
+// Base spacing for mobile modals
 const mobileBase = {
   error: {
-    spacing: 4, // Space between error and next field
+    spacing: 4, // Space between error and field
   },
   field: {
-    gap: 24, // Default gap between form fields
+    gap: 24, // Gap between form fields
   },
 };
 
-// Store base heights and margins when modal opens
+// Save the original heights when modal first opens
 function recordBaseHeightsMobile(formElement, settings) {
   const fieldWrappers = formElement.querySelectorAll(
     settings.fieldWrapperSelector
@@ -20,14 +20,14 @@ function recordBaseHeightsMobile(formElement, settings) {
   });
 }
 
-// Calculate and adjust field heights based on errors
+// Adjust field heights when errors appear/disappear
 function adjustMobileFields(formElement, settings) {
   const fieldWrappers = formElement.querySelectorAll(
     settings.fieldWrapperSelector
   );
 
   fieldWrappers.forEach((wrapper) => {
-    // Reset to base measurements first
+    // Go back to original size first
     const baseHeight =
       parseFloat(wrapper.dataset.baseHeight) ||
       settings.defaultHeights.mobile.fieldWrapper;
@@ -37,19 +37,19 @@ function adjustMobileFields(formElement, settings) {
     wrapper.style.height = `${baseHeight}px`;
     wrapper.style.marginBottom = `${baseMargin}px`;
 
-    // Check for visible error
+    // Make room for error if needed
     const error = wrapper.querySelector(`.${settings.errorClass}`);
     if (error && error.classList.contains(settings.errorClass)) {
       const errorHeight = error.offsetHeight;
       const errorMargin = mobileBase.error.spacing;
 
-      // Adjust wrapper height to include error
+      // Add error height to wrapper
       wrapper.style.height = `${baseHeight + errorHeight + errorMargin}px`;
     }
   });
 }
 
-// Main function to handle mobile modal height adjustments
+// Handle mobile modal height changes
 function adjustMobileModalHeight(formElement, settings) {
   if (window.innerWidth <= settings.mobileBreakpoint) {
     const modalContainer = formElement.closest(settings.modalContainerSelector);
@@ -57,18 +57,18 @@ function adjustMobileModalHeight(formElement, settings) {
       settings.modalContentWrapperSelector
     );
 
-    // Reset container heights to measure natural size
+    // Let everything flow naturally first
     modalContainer.style.height = "";
     contentWrapper.style.height = "";
 
-    // Adjust fields for errors
+    // Fix field heights for any errors
     adjustMobileFields(formElement, settings);
 
-    // Let the modal grow naturally based on content
+    // See how tall everything needs to be
     const newContainerHeight = modalContainer.offsetHeight;
     const newContentHeight = contentWrapper.offsetHeight;
 
-    // Only set explicit heights if they differ from defaults
+    // Only set heights if they need to be bigger than default
     if (newContainerHeight > settings.defaultHeights.mobile.container) {
       modalContainer.style.height = `${newContainerHeight}px`;
     }
@@ -78,6 +78,6 @@ function adjustMobileModalHeight(formElement, settings) {
   }
 }
 
-// Make these functions available to validation.js
+// Make these available to validation.js
 window.adjustMobileModalHeight = adjustMobileModalHeight;
 window.recordBaseHeightsMobile = recordBaseHeightsMobile;

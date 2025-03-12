@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Page setup stuff -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spots</title>
+    <link rel="stylesheet" href="./pages/index.css" />
+  </head>
+  <body class="page">
+    <!-- Top of page with logo -->
+    <header class="header page__section">
+      <img src="./images/Logo.svg" alt="Spots logo" class="header__logo" />
+    </header>
+
+    <main class="content page__section">
+      <!-- User profile area -->
+      <section class="profile">
+        <div class="profile__content">
+          <img
+            src="./images/avatar.jpg"
+            alt="Profile of Bessie Coleman"
+            class="profile__image"
+          />
+          <div class="profile__info">
+            <h1 class="profile__name">Bessie Coleman</h1>
+            <p class="profile__description">Civil Aviator</p>
+            <button class="profile__edit-button" type="button">
+              <img
+                src="./images/Group2.svg"
+                alt="Edit profile icon"
+                class="profile__edit-icon"
+              />
+              Edit Profile
+            </button>
+          </div>
+        </div>
+        <button class="profile__add-button" type="button">
+          <img
+            src="./images/Group26.svg"
+            alt="Add new post icon"
+            class="profile__add-icon"
+          />
+          New Post
+        </button>
+      </section>
+
+      <!-- Photo grid area -->
+      <section class="gallery">
+        <ul class="gallery__cards"></ul>
+      </section>
+    </main>
+
+    <!-- Template for making new photo cards -->
+    <template id="card-template">
+      <li class="card">
+        <img src="" alt="" class="card__image" />
+        <button class="card__delete-button" type="button">
+          <img
+            src="./images/delete_default.png"
+            alt="Delete card"
+            class="card__delete-icon"
+          />
+        </button>
+        <div class="card__description">
+          <h2 class="card__title"></h2>
+          <button class="card__like-button" type="button">
+            <img
+              src="./images/heart.svg"
+              alt="Like button"
+              class="card__like-icon"
+              width="22"
+              height="20"
+            />
+          </button>
+        </div>
+      </li>
+    </template>
+
+    <!-- Modal for editing profile -->
+    <div class="modal" id="edit-profile-modal">
+      <div class="modal__container">
+        <button class="modal__close-btn" type="button"></button>
+        <h2 class="modal__title">Edit profile</h2>
+        <form name="edit-profile" class="modal__form" id="edit-profile-form">
+          <label for="name-input" class="modal__label">
+            Name
+            <input
+              type="text"
+              id="name-input"
+              class="modal__input"
+              minlength="2"
+              maxlength="40"
+              placeholder="Type your name"
+              required
+            />
+          </label>
+          <label for="description-input" class="modal__label">
+            Description
+            <input
+              type="text"
+              id="description-input"
+              class="modal__input"
+              minlength="2"
+              maxlength="200"
+              placeholder="Describe yourself"
+              required
+            />
+          </label>
+          <button class="modal__submit-btn" type="submit">Save</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal for adding new photos -->
+    <div class="modal" id="new-post-modal">
+      <div class="modal__container">
+        <button class="modal__close-btn" type="button"></button>
+        <h2 class="modal__title">New Post</h2>
+        <form name="new-post" class="modal__form" id="new-post-form">
+          <label for="image-link" class="modal__label">
+            Image Link
+            <input
+              type="url"
+              id="image-link"
+              class="modal__input"
+              placeholder="Paste a link to the picture"
+              required
+            />
+          </label>
+          <label for="caption-input" class="modal__label">
+            Caption
+            <input
+              type="text"
+              id="caption-input"
+              class="modal__input"
+              minlength="2"
+              maxlength="30"
+              placeholder="Type your caption"
+              required
+            />
+          </label>
+          <button class="modal__submit-btn" type="submit">Save</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal for viewing photos -->
+    <div class="modal" id="view-photo">
+      <div class="modal__container modal__container_type_preview">
+        <button
+          class="modal__close-btn modal__close-btn_type_preview"
+          type="button"
+        ></button>
+        <div class="modal__image-container">
+          <img src="" alt="" class="modal__image" />
+          <p class="modal__caption"></p>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p class="footer__copyright">2024 &copy; Spots</p>
+    </footer>
+
+    <script src="./scripts/index.js" defer></script>
+  </body>
+</html>

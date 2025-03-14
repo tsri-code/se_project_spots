@@ -36,7 +36,7 @@ const modals = document.querySelectorAll(".modal");
 const editProfileModal = modals[0]; // First modal is edit profile
 const newPostModal = modals[1]; // Second modal is new post
 const closeButtons = document.querySelectorAll(".modal__close-btn");
-
+const submitButtons = document.querySelector(".modal__submit-btn");
 const profileModal = document.querySelector("#edit-profile-modal");
 const profileForm = profileModal.querySelector("#edit-profile-form");
 const nameInput = document.querySelector("#name-input");
@@ -67,11 +67,17 @@ function closeModal(modal) {
 function openEditProfileModal() {
   nameInput.value = profileNameElement.textContent;
   descriptionInput.value = profileDescriptionElement.textContent;
+  resetValidation(profileForm, [nameInput, descriptionInput]);
   openModal(editProfileModal);
+  disableButton(submitButtons);
 }
 
 function openNewPostModal() {
   openModal(newPostModal);
+  toggleButtonState(
+    cardForm.querySelectorAll(".modal__input"),
+    cardForm.querySelector(".modal__submit-btn")
+  );
 }
 
 // Add event listeners
@@ -101,8 +107,9 @@ function handleNewPostFormSubmit(evt) {
   };
   const cardElement = getCardElement(cardData);
   cardList.prepend(cardElement);
+  evt.target.reset();
+  disableButton(submitButtons);
   closeModal(newPostModal);
-  cardForm.reset();
 }
 
 cardForm.addEventListener("submit", handleNewPostFormSubmit);

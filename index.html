@@ -82,7 +82,12 @@
       <div class="modal__container">
         <button class="modal__close-btn" type="button"></button>
         <h2 class="modal__title">Edit profile</h2>
-        <form name="edit-profile" class="modal__form" id="edit-profile-form">
+        <form
+          name="edit-profile"
+          class="modal__form"
+          id="edit-profile-form"
+          novalidate
+        >
           <label for="name-input" class="modal__label">
             Name
             <input
@@ -119,7 +124,7 @@
       <div class="modal__container">
         <button class="modal__close-btn" type="button"></button>
         <h2 class="modal__title">New Post</h2>
-        <form name="new-post" class="modal__form" id="new-post-form">
+        <form name="new-post" class="modal__form" id="new-post-form" novalidate>
           <label for="image-link" class="modal__label">
             Image Link
             <input
@@ -129,6 +134,7 @@
               placeholder="Paste a link to the picture"
               required
             />
+            <span class="modal__error" id="image-link-error"></span>
           </label>
           <label for="caption-input" class="modal__label">
             Caption
@@ -141,6 +147,7 @@
               placeholder="Type your caption"
               required
             />
+            <span class="modal__error" id="caption-input-error"></span>
           </label>
           <button class="modal__submit-btn" type="submit">Save</button>
         </form>
@@ -166,5 +173,6 @@
     </footer>
 
     <script src="./scripts/index.js" defer></script>
+    <script src="./scripts/validation.js" defer></script>
   </body>
 </html>

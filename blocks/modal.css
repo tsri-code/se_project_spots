@@ -124,7 +124,7 @@ html {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   font-size: 16px;
   font-weight: 500;
   line-height: 17.6px;
@@ -148,6 +148,9 @@ html {
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
+.modal__submit-btn_disabled {
+  opacity: 0.5;
+}
 
 .modal__submit-btn:hover {
   opacity: 0.8;
@@ -166,6 +169,11 @@ html {
   transition: all 0.3s ease-in-out;
 }
 
+.modal__input_type_error {
+  border: 1px solid #ff0000;
+  opacity: 0.6;
+}
+
 .modal__input:hover {
   border: 1px solid rgba(33, 33, 33, 1);
 }
@@ -178,7 +186,6 @@ html {
   font-weight: 500;
   line-height: 1.1;
   font-family: "Poppins", sans-serif;
-  margin-top: 8px;
 }
 
 @media screen and (max-width: 769px) {
@@ -225,7 +232,7 @@ html {
   }
 
   .modal__label {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
   .modal__input {

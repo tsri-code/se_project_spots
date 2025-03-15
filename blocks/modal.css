@@ -15,10 +15,10 @@ html {
   visibility: hidden;
   opacity: 0;
   padding: 0 16px;
-  z-index: 1;
+  z-index: 10;
 }
 
-.modal__opened {
+.modal_opened {
   visibility: visible;
   opacity: 1;
   transition: all 0.3s ease-in-out;

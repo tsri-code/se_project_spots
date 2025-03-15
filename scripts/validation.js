@@ -35,7 +35,6 @@ const checkInputValidity = (formElement, inputElement, config) => {
 };
 
 const hasInvalidInput = (inputList) => {
-  console.log("Checking validity of", inputList);
   return Array.from(inputList).some((input) => {
     return !input.validity.valid;
   });

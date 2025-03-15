@@ -67,16 +67,17 @@ function closeModal(modal) {
 function openEditProfileModal() {
   nameInput.value = profileNameElement.textContent;
   descriptionInput.value = profileDescriptionElement.textContent;
-  resetValidation(profileForm, [nameInput, descriptionInput]);
+  resetValidation(profileForm, [nameInput, descriptionInput], settings);
   openModal(editProfileModal);
-  disableButton(submitButtons);
+  disableButton(submitButtons, settings);
 }
 
 function openNewPostModal() {
   openModal(newPostModal);
   toggleButtonState(
     cardForm.querySelectorAll(".modal__input"),
-    cardForm.querySelector(".modal__submit-btn")
+    cardForm.querySelector(".modal__submit-btn"),
+    settings
   );
 }
 
@@ -108,7 +109,7 @@ function handleNewPostFormSubmit(evt) {
   const cardElement = getCardElement(cardData);
   cardList.prepend(cardElement);
   evt.target.reset();
-  disableButton(submitButtons);
+  disableButton(submitButtons, settings);
   closeModal(newPostModal);
 }
 

@@ -58,11 +58,31 @@ const cardList = document.querySelector(".gallery__cards");
 
 function openModal(modal) {
   modal.classList.add("modal__opened");
+  document.addEventListener("keydown", handleEscClose);
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal__opened");
+  document.removeEventListener("keydown", handleEscClose);
 }
+
+function handleEscClose(evt) {
+  if (evt.key === "Escape") {
+    const openedModal = document.querySelector(".modal__opened");
+    if (openedModal) {
+      closeModal(openedModal);
+    }
+  }
+}
+
+// Close modal when clicking on overlay
+modals.forEach((modal) => {
+  modal.addEventListener("mousedown", (evt) => {
+    if (evt.target.classList.contains("modal__opened")) {
+      closeModal(modal);
+    }
+  });
+});
 
 function openEditProfileModal() {
   nameInput.value = profileNameElement.textContent;

@@ -1,6 +1,6 @@
 import "./index.css";
 import Api from "../utils/Api.js";
-
+import { setButtonText } from "../utils/helpers.js";
 import {
   enableValidation,
   resetValidation,
@@ -113,6 +113,9 @@ function openAvatarModal() {
 // Submits profile form
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
+  const submitButton = evt.submitter;
+  setButtonText(submitButton, true);
+
   api
     .editUserInfo({
       name: nameInput.value,
@@ -123,12 +126,18 @@ function handleProfileFormSubmit(evt) {
       profileDescriptionElement.textContent = userInfo.about;
       closeModal(editProfileModal);
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(submitButton, false);
+    });
 }
 
 // Submits new post form
 function handleNewPostFormSubmit(evt) {
   evt.preventDefault();
+  const submitButton = evt.submitter;
+  setButtonText(submitButton, true);
+
   const cardData = {
     name: cardNameInput.value,
     link: cardLinkInput.value,
@@ -143,12 +152,18 @@ function handleNewPostFormSubmit(evt) {
       disableButton(cardFormSubmitButton, settings);
       closeModal(newPostModal);
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(submitButton, false);
+    });
 }
 
 // Submits avatar form
 function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
+  const submitButton = evt.submitter;
+  setButtonText(submitButton, true);
+
   api
     .setUserAvatar({
       avatar: avatarLinkInput.value,
@@ -158,7 +173,10 @@ function handleAvatarFormSubmit(evt) {
       closeModal(avatarModal);
       evt.target.reset();
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(submitButton, false);
+    });
 }
 
 // Opens delete confirmation modal
@@ -171,13 +189,19 @@ function handleDeleteCard(cardElement, data) {
 // Handles delete card submission
 function handleDeleteSubmit(evt) {
   evt.preventDefault();
+  const submitButton = evt.submitter;
+  setButtonText(submitButton, true, "Delete", "Deleting...");
+
   api
     .deleteCard(selectedCardId)
     .then(() => {
       selectedCard.remove();
       closeModal(deleteModal);
     })
-    .catch(console.error);
+    .catch(console.error)
+    .finally(() => {
+      setButtonText(submitButton, false, "Delete", "Deleting...");
+    });
 }
 
 // Handles like card submission

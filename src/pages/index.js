@@ -180,6 +180,23 @@ function handleDeleteSubmit(evt) {
     .catch(console.error);
 }
 
+// Handles like card submission
+function handleLike(evt, cardId) {
+  const likeButton = evt.target.closest(".card__like-button");
+  const isLiked = likeButton.classList.contains("card__like-button_active");
+
+  api
+    .changeLikeStatus(cardId, isLiked)
+    .then((updatedCard) => {
+      if (updatedCard.isLiked) {
+        likeButton.classList.add("card__like-button_active");
+      } else {
+        likeButton.classList.remove("card__like-button_active");
+      }
+    })
+    .catch(console.error);
+}
+
 // Add event listeners
 editProfileButton.addEventListener("click", openEditProfileModal);
 newPostButton.addEventListener("click", openNewPostModal);
@@ -222,12 +239,18 @@ function getCardElement(data) {
   const cardLikeBtn = cardElement.querySelector(".card__like-button");
   const cardDeleteBtn = cardElement.querySelector(".card__delete-button");
 
+  // Set card content
   cardImage.src = data.link;
   cardImage.alt = data.name;
   cardTitle.textContent = data.name;
-  cardLikeBtn.addEventListener("click", () => {
-    cardLikeBtn.classList.toggle("card__like-button_active");
-  });
+
+  // Set initial like state based on the isLiked property directly
+  if (data.isLiked) {
+    cardLikeBtn.classList.add("card__like-button_active");
+  }
+
+  // Add event listeners
+  cardLikeBtn.addEventListener("click", (evt) => handleLike(evt, data._id));
   cardDeleteBtn.addEventListener("click", () =>
     handleDeleteCard(cardElement, data)
   );

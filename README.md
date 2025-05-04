@@ -15,12 +15,6 @@ The alternate branch of 'old version' is an old attempt at Project 6 which I hav
 
 The branch project 9 is the branch to work off of for the API
 
-perform npm run dev to run the program in the terminal.
-
-<img src="./images/mobile.png" alt="Mobile view of Spots application">
-<img src="./images/tablet.png" alt="Tablet view of Spots application">
-<img src="./images/laptop.png" alt="Desktop view of Spots application">
-
 Link: https://tsri-code.github.io/se_project_spots/
 
 Video: https://drive.google.com/file/d/1Fbw6yX7MITJukJTgeuemsldq-TlIN-LP/view?usp=sharing

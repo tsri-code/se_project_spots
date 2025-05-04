@@ -1,4 +1,4 @@
-# Project 6: Spots
+# Project 9: Spots
 
 ### Overview
 
@@ -13,9 +13,7 @@ This project is made as a mockup profile page for social purposes. Users can add
 
 The alternate branch of 'old version' is an old attempt at Project 6 which I have scrapped. I have spoken to my counsellor about restarting Project 6 and it was approved. main branch is the current one.
 
-<img src="./images/mobile.png" alt="Mobile view of Spots application">
-<img src="./images/tablet.png" alt="Tablet view of Spots application">
-<img src="./images/laptop.png" alt="Desktop view of Spots application">
+The branch project 9 is the branch to work off of for the API
 
 Link: https://tsri-code.github.io/se_project_spots/
 
